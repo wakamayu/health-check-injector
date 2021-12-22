@@ -3,15 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.wakamayu.jucu.health.check.injector.interfaces;
+package com.wakamayu.jucu.health.check.injector.enums;
 
 /**
  *
  * @author carlos
  */
-public interface PromiseTarget {
-
-      public void run(Action action, Object data) throws Exception;
-
-
+public enum TypeConfig {
+    YML, PROPERTIES
 }

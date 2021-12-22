@@ -5,7 +5,7 @@
  */
 package com.wakamayu.jucu.health.check.injector.interfaces;
 
-import com.wakamayu.jucu.health.check.injector.model.DriverTracerModel;
+import com.wakamayu.jucu.health.check.injector.configure.TracerModel;
 import java.io.Serializable;
 
 /**
@@ -15,7 +15,7 @@ import java.io.Serializable;
 public interface Driver extends Serializable {
 
  
-    public DriverTracerModel execute(DriverTracerModel model);
+    public TracerModel execute(TracerModel model);
     
     
     

@@ -5,13 +5,17 @@
  */
 package com.wakamayu.jucu.health.check.injector.interfaces;
 
+import com.wakamayu.jucu.health.check.injector.model.DriverModel;
+
 /**
  *
  * @author carlos
  */
-public interface PromiseTarget {
+public interface FactoryHealthCheckConfigure {
 
-      public void run(Action action, Object data) throws Exception;
+    public DriverModel getDriverModel();
 
+    public void configure(String filePath);
 
+    public boolean check();
 }

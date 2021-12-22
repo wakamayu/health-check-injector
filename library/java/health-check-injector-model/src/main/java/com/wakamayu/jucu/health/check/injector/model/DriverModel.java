@@ -5,6 +5,7 @@
  */
 package com.wakamayu.jucu.health.check.injector.model;
 
+import com.wakamayu.jucu.health.check.injector.configure.TracerModel;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.io.Serializable;
@@ -21,7 +22,10 @@ public class DriverModel implements Serializable {
     private String name;
 
     @JsonProperty("tracer")
-    private List<DriverTracerModel> tracer;
+    private List<TracerModel> tracer;
+
+    @JsonProperty("webhook")
+    private List<DriverWebhookModel> webhook;
 
     public String getName() {
         return name;
@@ -31,17 +35,25 @@ public class DriverModel implements Serializable {
         this.name = name;
     }
 
-    public List<DriverTracerModel> getTracer() {
+    public List<TracerModel> getTracer() {
         return tracer;
     }
 
-    public void setTracer(List<DriverTracerModel> tracer) {
+    public void setTracer(List<TracerModel> tracer) {
         this.tracer = tracer;
+    }
+
+    public List<DriverWebhookModel> getWebhook() {
+        return webhook;
+    }
+
+    public void setWebhook(List<DriverWebhookModel> webhook) {
+        this.webhook = webhook;
     }
 
     @JsonIgnore
     public boolean isEmpty() {
-        return name != null && tracer != null && tracer.size() > 0;
+        return tracer != null && tracer.isEmpty();
     }
 
     @Override

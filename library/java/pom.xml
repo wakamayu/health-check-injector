@@ -4,19 +4,30 @@
     <groupId>com.wakamayu.jucu</groupId>
     <artifactId>health-check-injector</artifactId>
     <version>0.0.1</version>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.8</source>
+                    <target>1.8</target>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
     <packaging>pom</packaging>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
     </properties>
     <modules>
         <module>health-check-injector-annotate</module>
         <module>health-check-injector-interfaces</module>
-        <module>health-check-injector-implementation</module>
         <module>health-check-injector-model</module>
-        <module>health-check-injector-telnet</module>
-        <module>health-check-injector-http</module>
-        <module>health-check-injector-persistence-unit</module>
-        <module>health-check-injector-system</module>
+        <module>health-check-injector-api</module>
+        <module>health-check-injector-driver</module>
     </modules>
     <name>health-check-injector</name>
     <dependencies>
@@ -27,33 +38,34 @@
             <type>jar</type>
             <scope>provided</scope>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.dataformat/jackson-dataformat-properties -->
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-properties</artifactId>
             <version>2.10.0</version>
-            <scope>provided</scope>
+            <!--  <scope>provided</scope>-->
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.10.0</version>
-            <scope>provided</scope>
+            <!--  <scope>provided</scope>-->
         </dependency>
-
-        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-core -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-core</artifactId>
             <version>2.10.0</version>
-            <scope>provided</scope>
+            <!--  <scope>provided</scope>-->
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-annotations -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-annotations</artifactId>
             <version>2.10.0</version>
+            <!--  <scope>provided</scope>-->
+        </dependency>
+        <dependency>
+            <groupId>javax.ws.rs</groupId>
+            <artifactId>javax.ws.rs-api</artifactId>
+            <version>2.1.1</version>
             <scope>provided</scope>
         </dependency>
 
