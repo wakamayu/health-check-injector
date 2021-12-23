@@ -39,12 +39,14 @@ public class PromiseWebhook {
 
     private void promiseTarget(HealthCheckModel checkModel) {
         List<PromiseTarget> promiseTracers = new ArrayList();
-        for (TracerModel tracerModel : checkModel.getTracer()) {
-             tracerModel.setComponentName(checkModel.getName());
-            PromiseTarget promiseTarget = promiseTarget(checkModel.getWebhook(), tracerModel);
-            promiseTracers.add(promiseTarget);
+        if (checkModel != null) {
+            for (TracerModel tracerModel : checkModel.getTracer()) {
+                tracerModel.setComponentName(checkModel.getName());
+                PromiseTarget promiseTarget = promiseTarget(checkModel.getWebhook(), tracerModel);
+                promiseTracers.add(promiseTarget);
+            }
+            promiseTarget(promiseTracers);
         }
-        promiseTarget(promiseTracers);
     }
 
     private void promiseTarget(List<PromiseTarget> promiseTracers) {
