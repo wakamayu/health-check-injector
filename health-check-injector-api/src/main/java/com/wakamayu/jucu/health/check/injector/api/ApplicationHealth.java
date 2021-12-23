@@ -56,6 +56,7 @@ public class ApplicationHealth extends Application {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
         try {
             for (String line; (line = reader.readLine()) != null;) {
+                System.out.println(line);
                 Class interfaces = Class.forName(line);
                 HealthCheck healthCheck = (HealthCheck) interfaces.getDeclaredAnnotation(HealthCheck.class);
                 factoryconfigure.configure(healthCheck.fileConfig(), healthCheck.typeConfig());
@@ -63,6 +64,7 @@ public class ApplicationHealth extends Application {
             }
             health.configure(factoryconfigure);
         } catch (ClassNotFoundException | IOException ex) {
+            System.out.println(ex);
             Logger.getLogger(Application.class.getName()).log(Level.SEVERE, null, ex);
         }
 
@@ -81,13 +83,13 @@ public class ApplicationHealth extends Application {
     @Produces()
     @HealthCheck()
     public FactoryHealthCheck factoryFrom(InjectionPoint injection) {
-        //System.out.println("com.wakamayu.jucu.health.check.injector.api.Applications.factoryFrom()");
+        System.out.println("com.wakamayu.jucu.health.check.injector.api.Applications.factoryFrom()");
         FactoryHealthCheck factoryHealthCheck = AbstractFactoryHealthCheck.INITIAL_HEALTH_CHECK;
         Annotated annotated = injection.getAnnotated();
         if (annotated != null) {
             HealthCheck healthCheck = annotated.getAnnotation(HealthCheck.class);
             if (healthCheck != null) {
-                //System.out.println("com.wakamayu.jucu.health.check.injector.api.Applications.factoryFrom() HEALTHCHECK");
+                System.out.println("com.wakamayu.jucu.health.check.injector.api.Applications.factoryFrom() HEALTHCHECK");
                 factoryHealthCheck = new FactoryHealthCheck() {
                     @Override
                     public ResponseHealth ready() {

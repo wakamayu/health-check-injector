@@ -40,6 +40,7 @@ public class PromiseWebhook {
     private void promiseTarget(HealthCheckModel checkModel) {
         List<PromiseTarget> promiseTracers = new ArrayList();
         if (checkModel != null && checkModel.getTracer() != null) {
+            System.err.println(checkModel);
             for (TracerModel tracerModel : checkModel.getTracer()) {
                 tracerModel.setComponentName(checkModel.getName());
                 PromiseTarget promiseTarget = promiseTarget(checkModel.getWebhook(), tracerModel);

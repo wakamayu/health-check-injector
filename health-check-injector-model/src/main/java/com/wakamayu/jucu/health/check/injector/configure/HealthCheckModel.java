@@ -104,14 +104,7 @@ public class HealthCheckModel {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("HealthCheckModel{name=").append(name);
-        sb.append(", tracer=").append(tracer);
-        sb.append(", liveness=").append(liveness);
-        sb.append(", rediness=").append(rediness);
-        sb.append(", webhook=").append(webhook);
-        sb.append('}');
-        return sb.toString();
+        return "HealthCheckModel{" + "name=" + name + ", tracer=" + tracer + ", liveness=" + liveness + ", rediness=" + rediness + ", webhook=" + webhook + '}';
     }
 
 }

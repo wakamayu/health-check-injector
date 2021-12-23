@@ -29,7 +29,7 @@ import javax.inject.Singleton;
 public class InstanceEnviroment {
 
     private Properties properties = new Properties();
-    
+
     private ConfigureModel configureModel = new ConfigureModel();
 
     private void load(String filePath, TypeConfig config) throws FileNotFoundException, IOException {
@@ -45,10 +45,11 @@ public class InstanceEnviroment {
     public void configure(InputStream inputStream) throws FileNotFoundException, IOException {
         Properties properties = new Properties();
         properties.load(inputStream);
-
+        System.out.println("com.wakamayu.jucu.health.check.injector.utils.InstanceEnviroment.configure()");
         for (String name : properties.stringPropertyNames()) {
             if (name.indexOf("healthcheck") > -1) {
-                //System.out.println("com.wakamayu.jucu.health.check.injector.utils.InstanceEnviroment.configure()");
+                System.out.println("name" + name);
+                System.out.println(properties.getProperty(name));
                 this.properties.put(clearKey(name), properties.getProperty(name));
             }
         }
@@ -62,8 +63,6 @@ public class InstanceEnviroment {
             JavaPropsMapper mapper = new JavaPropsMapper();
             mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
             configureModel = mapper.readPropertiesAs(properties, ConfigureModel.class);
-//            //System.out.println("com.wakamayu.jucu.health.check.injector.api.ConfigurationDefault.toDriverModel()");
-//            //System.out.println(configureModel);
         }
     }
 
@@ -85,7 +84,8 @@ public class InstanceEnviroment {
         } else if (file != null && file.indexOf("META-INF") > 0) {
             resultUriFile = InstanceEnviroment.class.getResource(file).getFile();
         }
-
+        System.out.println("com.wakamayu.jucu.health.check.injector.utils.InstanceEnviroment.rootUriFile()");
+        System.out.println(resultUriFile);
         return resultUriFile;
     }
 
@@ -101,6 +101,5 @@ public class InstanceEnviroment {
     public ConfigureModel getConfigureModel() {
         return configureModel;
     }
-    
 
 }

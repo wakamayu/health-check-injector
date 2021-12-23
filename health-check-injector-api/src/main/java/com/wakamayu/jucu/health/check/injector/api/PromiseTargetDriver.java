@@ -39,7 +39,7 @@ public class PromiseTargetDriver {
     public void build(Collection<TracerModel> driverTracerModels) {
         promiseTracers = new ArrayList();
         driverTracerModels.forEach((driverTracerModel) -> {
-            Driver driver = annotated.find(instancesDrivers, new AnnotatedName(driverTracerModel.getType().name()), true);
+            Driver driver = annotated.find(instancesDrivers, new AnnotatedName(driverTracerModel.getType().name()));
             if (driver != null) {
                 promiseTracers.add((PromiseTarget) (Action action, Object data) -> {
                     action.resolve(driver.execute(driverTracerModel));
