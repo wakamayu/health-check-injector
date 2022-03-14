@@ -54,8 +54,18 @@ public class TracerModel implements Serializable {
 
     @JsonProperty("persistenceunit")
     private String persistenceUnit;
+   
+    @JsonProperty("initevaluatetime")
+    private Long initEvaluteTime;
+    
+    @JsonProperty("endevaluatetime")
+    private Long endEvaluateTime;
 
+    @JsonProperty("timezone")
+    private String timeZone;
+    
     private TypeStatus status;
+ 
 
     public String getComponentName() {
         return componentName;
@@ -185,25 +195,54 @@ public class TracerModel implements Serializable {
         this.status = status;
     }
 
+    public Long getEndEvaluateTime() {
+        return endEvaluateTime;
+    }
+
+    public void setEndEvaluateTime(Long endEvaluateTime) {
+        this.endEvaluateTime = endEvaluateTime;
+    }
+
+    public Long getInitEvaluteTime() {
+        return initEvaluteTime;
+    }
+
+    public void setInitEvaluteTime(Long initEvaluteTime) {
+        this.initEvaluteTime = initEvaluteTime;
+    }
+
+    public String getTimeZone() {
+        return timeZone;
+    }
+
+    public void setTimeZone(String timeZone) {
+        this.timeZone = timeZone;
+    }
+
+
     @Override
     public int hashCode() {
-        int hash = 3;
-        hash = 47 * hash + Objects.hashCode(this.componentName);
-        hash = 47 * hash + Objects.hashCode(this.name);
-        hash = 47 * hash + this.port;
-        hash = 47 * hash + Objects.hashCode(this.ip);
-        hash = 47 * hash + Objects.hashCode(this.protocol);
-        hash = 47 * hash + Objects.hashCode(this.path);
-        hash = 47 * hash + Objects.hashCode(this.domain);
-        hash = 47 * hash + Objects.hashCode(this.driver);
-        hash = 47 * hash + Objects.hashCode(this.min);
-        hash = 47 * hash + Objects.hashCode(this.type);
-        hash = 47 * hash + Objects.hashCode(this.max);
-        hash = 47 * hash + Objects.hashCode(this.free);
-        hash = 47 * hash + Objects.hashCode(this.rate);
-        hash = 47 * hash + Objects.hashCode(this.acceptable);
-        hash = 47 * hash + Objects.hashCode(this.persistenceUnit);
-        hash = 47 * hash + Objects.hashCode(this.status);
+        int hash = 7;
+        hash = 89 * hash + Objects.hashCode(this.componentName);
+        hash = 89 * hash + Objects.hashCode(this.name);
+        hash = 89 * hash + this.port;
+        hash = 89 * hash + Objects.hashCode(this.ip);
+        hash = 89 * hash + Objects.hashCode(this.protocol);
+        hash = 89 * hash + Objects.hashCode(this.path);
+        hash = 89 * hash + Objects.hashCode(this.domain);
+        hash = 89 * hash + Objects.hashCode(this.driver);
+        hash = 89 * hash + Objects.hashCode(this.min);
+        hash = 89 * hash + Objects.hashCode(this.type);
+        hash = 89 * hash + Objects.hashCode(this.max);
+        hash = 89 * hash + Objects.hashCode(this.free);
+        hash = 89 * hash + Objects.hashCode(this.rate);
+        hash = 89 * hash + Objects.hashCode(this.acceptable);
+        hash = 89 * hash + Objects.hashCode(this.persistenceUnit);
+        hash = 89 * hash + Objects.hashCode(this.initEvaluteTime);
+        hash = 89 * hash + Objects.hashCode(this.endEvaluateTime);
+        hash = 89 * hash + Objects.hashCode(this.timeZone);
+        hash = 89 * hash + Objects.hashCode(this.status);
+      
         return hash;
     }
 
@@ -246,6 +285,9 @@ public class TracerModel implements Serializable {
         if (!Objects.equals(this.persistenceUnit, other.persistenceUnit)) {
             return false;
         }
+        if (!Objects.equals(this.timeZone, other.timeZone)) {
+            return false;
+        }
         if (!Objects.equals(this.min, other.min)) {
             return false;
         }
@@ -264,15 +306,46 @@ public class TracerModel implements Serializable {
         if (!Objects.equals(this.acceptable, other.acceptable)) {
             return false;
         }
+        if (!Objects.equals(this.initEvaluteTime, other.initEvaluteTime)) {
+            return false;
+        }
+        if (!Objects.equals(this.endEvaluateTime, other.endEvaluateTime)) {
+            return false;
+        }
         if (this.status != other.status) {
             return false;
         }
+ 
         return true;
     }
 
     @Override
     public String toString() {
-        return "TracerModel{" + "componentName=" + componentName + ", name=" + name + ", port=" + port + ", ip=" + ip + ", protocol=" + protocol + ", path=" + path + ", domain=" + domain + ", driver=" + driver + ", min=" + min + ", type=" + type + ", max=" + max + ", free=" + free + ", rate=" + rate + ", acceptable=" + acceptable + ", persistenceUnit=" + persistenceUnit + ", status=" + status + '}';
+        StringBuilder sb = new StringBuilder();
+        sb.append("TracerModel{componentName=").append(componentName);
+        sb.append(", name=").append(name);
+        sb.append(", port=").append(port);
+        sb.append(", ip=").append(ip);
+        sb.append(", protocol=").append(protocol);
+        sb.append(", path=").append(path);
+        sb.append(", domain=").append(domain);
+        sb.append(", driver=").append(driver);
+        sb.append(", min=").append(min);
+        sb.append(", type=").append(type);
+        sb.append(", max=").append(max);
+        sb.append(", free=").append(free);
+        sb.append(", rate=").append(rate);
+        sb.append(", acceptable=").append(acceptable);
+        sb.append(", persistenceUnit=").append(persistenceUnit);
+        sb.append(", initEvaluteTime=").append(initEvaluteTime);
+        sb.append(", endEvaluateTime=").append(endEvaluateTime);
+        sb.append(", timeZone=").append(timeZone);
+        sb.append(", status=").append(status);
+        sb.append('}');
+        return sb.toString();
     }
-
+    
+    
+    
+    
 }

@@ -5,6 +5,7 @@
  */
 package com.wakamayu.jucu.health.check.injector.configure;
 
+import com.wakamayu.jucu.health.check.injector.enums.TypeStatus;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -20,6 +21,7 @@ public class HealthCheckModel {
     private String[] liveness;
     private String[] rediness;
     private String webhook;
+    private TypeStatus status;
 
     public String getName() {
         return name;
@@ -60,6 +62,16 @@ public class HealthCheckModel {
     public void setWebhook(String webhook) {
         this.webhook = webhook;
     }
+
+    public TypeStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(TypeStatus status) {
+        this.status = status;
+    }
+    
+    
 
     @Override
     public int hashCode() {

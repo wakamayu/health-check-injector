@@ -26,8 +26,6 @@ public class InjectorTelnet implements Driver {
 
     @Override
     public TracerModel execute(TracerModel driverTracerModel) {
-        System.out.println("com.wakamayu.jucu.health.check.injector.driver.InjectorTelnet.execute()");
-        System.out.println(driverTracerModel);
         String domainIP = driverTracerModel.getIp();
         Integer port = driverTracerModel.getPort();
         boolean pipe = isSocketAliveUitlity(domainIP, port);
@@ -44,10 +42,8 @@ public class InjectorTelnet implements Driver {
 
         SocketAddress socketAddress = new InetSocketAddress(hostName, port);
         Socket socket = new Socket();
-
-        int timeout = 2000;
         try {
-            socket.connect(socketAddress, timeout);
+            socket.connect(socketAddress, 2000);
             socket.close();
             isAlive = true;
         } catch (SocketTimeoutException exception) {

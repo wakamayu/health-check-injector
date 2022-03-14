@@ -42,13 +42,19 @@
             <version>0.0.1</version>
             <type>jar</type>
         </dependency>
+       
+<!--         Exposition HTTPServer
         <dependency>
-            <groupId>org.eclipse.microprofile.health</groupId>
-            <artifactId>microprofile-health-api</artifactId>
-            <version>4.0</version>
-            <scope>provided</scope>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_httpserver</artifactId>
+            <version>0.15.0</version>
         </dependency>
-        
+         Pushgateway exposition
+        <dependency>
+            <groupId>io.prometheus</groupId>
+            <artifactId>simpleclient_pushgateway</artifactId>
+            <version>0.15.0</version>
+        </dependency>-->
     </dependencies>
     <name>health-check-injector-api</name>
 </project>

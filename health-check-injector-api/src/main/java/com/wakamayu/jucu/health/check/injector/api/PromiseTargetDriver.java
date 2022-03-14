@@ -13,8 +13,11 @@ import com.wakamayu.jucu.health.check.injector.configure.TracerModel;
 import com.wakamayu.jucu.health.check.injector.promise.ExecutePromise;
 import com.wakamayu.jucu.health.check.injector.utils.InstanceAnnotated;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
+import java.util.TimeZone;
+import java.util.function.Consumer;
 import javax.ejb.Stateless;
 import javax.enterprise.inject.Any;
 import javax.enterprise.inject.Instance;
@@ -36,24 +39,53 @@ public class PromiseTargetDriver {
 
     private List<PromiseTarget> promiseTracers;
 
+    private void attachInitDate(TracerModel tracerModel) {
+        TimeZone timeZone = TimeZone.getDefault();
+        if (tracerModel != null) {
+            if (tracerModel.getTimeZone() != null) {
+                timeZone = TimeZone.getTimeZone(tracerModel.getTimeZone());
+            }
+            tracerModel.setInitEvaluteTime(Calendar.getInstance(timeZone).getTimeInMillis());
+        }
+    }
+
+    private void attachEndDate(TracerModel tracerModel) {
+        TimeZone timeZone = TimeZone.getDefault();
+        if (tracerModel != null) {
+            if (tracerModel.getTimeZone() != null) {
+                timeZone = TimeZone.getTimeZone(tracerModel.getTimeZone());
+            }
+            tracerModel.setEndEvaluateTime(Calendar.getInstance(timeZone).getTimeInMillis());
+        }
+    }
+
     public void build(Collection<TracerModel> driverTracerModels) {
         promiseTracers = new ArrayList();
-        driverTracerModels.forEach((driverTracerModel) -> {
-            Driver driver = annotated.find(instancesDrivers, new AnnotatedName(driverTracerModel.getType().name()));
+        driverTracerModels.forEach((Consumer<TracerModel>) (tracerModel) -> {
+            Driver driver = annotated.find(instancesDrivers, new AnnotatedName(tracerModel.getType().name()));
             if (driver != null) {
+                attachInitDate(tracerModel);
                 promiseTracers.add((PromiseTarget) (Action action, Object data) -> {
-                    action.resolve(driver.execute(driverTracerModel));
+                    TracerModel executeTracerModel = driver.execute(tracerModel);
+                    attachEndDate(executeTracerModel);
+                    action.resolve(executeTracerModel);
+
                 });
             }
+
         });
 
     }
 
     public List<TracerModel> getValue() {
-        ExecutePromise<List> execute = ExecutePromise.all(promiseTracers).then((action, data) -> {
-            action.resolve(data);
-        }).start();
-        return execute.getValue();
+        List<TracerModel> tracerModels = new ArrayList();
+        if (promiseTracers.size() > 0) {
+            ExecutePromise<List> execute = ExecutePromise.all(promiseTracers).then((action, data) -> {
+                action.resolve(data);
+            }).start();
+            tracerModels = execute.getValue();
+        }
+        return tracerModels;
     }
 
 }

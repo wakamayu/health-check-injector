@@ -13,8 +13,10 @@ import com.wakamayu.jucu.health.check.injector.interfaces.FactoryHealth;
 import com.wakamayu.jucu.health.check.injector.interfaces.FactoryHealthCheck;
 import com.wakamayu.jucu.health.check.injector.model.ResponseHealth;
 import com.wakamayu.jucu.health.check.injector.resource.LivenessResource;
+import com.wakamayu.jucu.health.check.injector.resource.MetricsPrometheus;
 import com.wakamayu.jucu.health.check.injector.resource.PrincipalResource;
 import com.wakamayu.jucu.health.check.injector.resource.ReadinessResource;
+import io.prometheus.client.Counter;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,6 +44,9 @@ import javax.ws.rs.core.Application;
 @ApplicationScoped
 public class ApplicationHealth extends Application {
 
+    static final Counter requests = Counter.build()
+            .name("requests_total").help("Total requests.").register();
+
     @Inject
     @Named("FACTORY-CONFIGURE")
     private FactoryConfigure factoryconfigure;
@@ -54,9 +59,9 @@ public class ApplicationHealth extends Application {
     public void init() {
         InputStream inputStream = ApplicationHealth.class.getResourceAsStream("/provider/provider.health.check.injector");
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
         try {
             for (String line; (line = reader.readLine()) != null;) {
-                System.out.println(line);
                 Class interfaces = Class.forName(line);
                 HealthCheck healthCheck = (HealthCheck) interfaces.getDeclaredAnnotation(HealthCheck.class);
                 factoryconfigure.configure(healthCheck.fileConfig(), healthCheck.typeConfig());
@@ -76,6 +81,7 @@ public class ApplicationHealth extends Application {
         classes.add(LivenessResource.class);
         classes.add(ReadinessResource.class);
         classes.add(PrincipalResource.class);
+        classes.add(MetricsPrometheus.class);
         return classes;
     }
 
@@ -83,29 +89,27 @@ public class ApplicationHealth extends Application {
     @Produces()
     @HealthCheck()
     public FactoryHealthCheck factoryFrom(InjectionPoint injection) {
-        System.out.println("com.wakamayu.jucu.health.check.injector.api.Applications.factoryFrom()");
         FactoryHealthCheck factoryHealthCheck = AbstractFactoryHealthCheck.INITIAL_HEALTH_CHECK;
         Annotated annotated = injection.getAnnotated();
         if (annotated != null) {
             HealthCheck healthCheck = annotated.getAnnotation(HealthCheck.class);
             if (healthCheck != null) {
-                System.out.println("com.wakamayu.jucu.health.check.injector.api.Applications.factoryFrom() HEALTHCHECK");
                 factoryHealthCheck = new FactoryHealthCheck() {
                     @Override
                     public ResponseHealth ready() {
-
+                        requests.inc();
                         return health.all();
                     }
 
                     @Override
                     public ResponseHealth readyLiveness() {
-
+                        requests.inc();
                         return health.readyLiveness();
                     }
 
                     @Override
                     public ResponseHealth readyReadiness() {
-
+                        requests.inc();
                         return health.readyReadiness();
                     }
                 };

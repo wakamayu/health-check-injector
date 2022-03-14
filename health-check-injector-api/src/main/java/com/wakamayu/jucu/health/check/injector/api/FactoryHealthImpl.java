@@ -12,6 +12,7 @@ import com.wakamayu.jucu.health.check.injector.interfaces.FactoryConfigure;
 import com.wakamayu.jucu.health.check.injector.interfaces.FactoryHealth;
 import com.wakamayu.jucu.health.check.injector.model.ResponseHealth;
 import com.wakamayu.jucu.health.check.injector.utils.InstanceAnnotated;
+import io.prometheus.client.Gauge;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -30,21 +31,23 @@ import org.eclipse.microprofile.health.HealthCheckResponseBuilder;
 @Singleton
 @Named("FACTORY-HEALTH")
 public class FactoryHealthImpl implements FactoryHealth {
-    
+
+    static final Gauge inprogressRequests = Gauge.build()
+            .name("inprogress_requests").help("Inprogress requests.").register();
     @Inject
     private InstanceAnnotated instanceAnnotated;
-    
+
     @Inject
     private PromiseTargetDriver promiseTargetDriver;
-    
+
     @Inject
     @Named("WEBHOOK")
     private Event<HealthCheckModel> eventWebhook;
-    
+
     private HealthCheckModel healthCheckModel = new HealthCheckModel();
-    
+
     private Map<String, TracerModel> mapTracerModel = new HashMap();
-    
+
     @Override
     public void configure(FactoryConfigure factoryConfigure) {
         if (factoryConfigure.isValid()) {
@@ -54,7 +57,7 @@ public class FactoryHealthImpl implements FactoryHealth {
             });
         }
     }
-    
+
     public ResponseHealth build(String[] selectTracer) {
         List<TracerModel> resultList = new ArrayList();
         if (selectTracer != null) {
@@ -65,37 +68,44 @@ public class FactoryHealthImpl implements FactoryHealth {
         promiseTargetDriver.build(resultList);
         return build(promiseTargetDriver.getValue());
     }
-    
+
     public ResponseHealth build(List<TracerModel> listTargetModel) {
+        inprogressRequests.inc();
+        ResponseHealth responseHealth = toResponseHelth(listTargetModel);
+
+        healthCheckModel.setStatus(responseHealth.getStatus());
         healthCheckModel.setTracer(listTargetModel);
         eventWebhook.fire(healthCheckModel);
-        return toResponseHelth(listTargetModel);
+
+        inprogressRequests.dec();
+        return responseHealth;
     }
-    
+
     public ResponseHealth build() {
         promiseTargetDriver.build(mapTracerModel.values());
         return build(promiseTargetDriver.getValue());
+
     }
-    
+
     @Override
     public ResponseHealth all() {
         //System.out.println("com.wakamayu.jucu.health.check.injector.api.FactoryHealthImpl.all()");
         return build();
-        
+
     }
-    
+
     @Override
     public ResponseHealth readyLiveness() {
         //System.out.println("com.wakamayu.jucu.health.check.injector.api.FactoryHealthImpl.readyLiveness()");
         return build(healthCheckModel.getLiveness());
     }
-    
+
     @Override
     public ResponseHealth readyReadiness() {
         //System.out.println("com.wakamayu.jucu.health.check.injector.api.FactoryHealthImpl.readyReadiness()");
         return build(healthCheckModel.getRediness());
     }
-    
+
     private ResponseHealth toResponseHelth(List<TracerModel> tracerModels) {
         ResponseHealth responseHealth = new ResponseHealth();
         Integer count = 0;
@@ -117,11 +127,10 @@ public class FactoryHealthImpl implements FactoryHealth {
         }
         return responseHealth;
     }
-    
+
     private void setterChecks(HealthCheckResponseBuilder checkResponseBuilder, TracerModel tracerModel) {
-        
+
         //System.out.println("com.wakamayu.jucu.health.check.injector.microprofile.FactoryHealthCheckMicroprofile.setterMemory()");
-        
         setterProperties(checkResponseBuilder, "driver", tracerModel.getDriver());
         setterProperties(checkResponseBuilder, "domain", tracerModel.getDomain());
         setterProperties(checkResponseBuilder, "ip", tracerModel.getIp());
@@ -133,9 +142,9 @@ public class FactoryHealthImpl implements FactoryHealth {
         setterProperties(checkResponseBuilder, "path", tracerModel.getPath());
         setterProperties(checkResponseBuilder, "persistunit", tracerModel.getPersistenceUnit());
         setterProperties(checkResponseBuilder, "status", tracerModel.getStatus().name());
-        
+
     }
-    
+
     private void setterProperties(HealthCheckResponseBuilder checkResponseBuilder, String key, String value) {
         if (key != null) {
             if (value != null) {
@@ -143,7 +152,7 @@ public class FactoryHealthImpl implements FactoryHealth {
             }
         }
     }
-    
+
     private void setterProperties(HealthCheckResponseBuilder checkResponseBuilder, String key, Boolean value) {
         if (key != null) {
             if (value != null) {
@@ -151,7 +160,7 @@ public class FactoryHealthImpl implements FactoryHealth {
             }
         }
     }
-    
+
     private void setterProperties(HealthCheckResponseBuilder checkResponseBuilder, String key, Double value) {
         if (key != null) {
             if (value != null) {
@@ -159,5 +168,5 @@ public class FactoryHealthImpl implements FactoryHealth {
             }
         }
     }
-    
+
 }

@@ -7,18 +7,25 @@ package com.wakamayu.jucu.health.check.injector.api;
 
 import com.wakamayu.jucu.health.check.injector.configure.HealthCheckModel;
 import com.wakamayu.jucu.health.check.injector.configure.TracerModel;
+import com.wakamayu.jucu.health.check.injector.enums.TypeStatus;
 import com.wakamayu.jucu.health.check.injector.interfaces.Action;
 import com.wakamayu.jucu.health.check.injector.interfaces.PromiseTarget;
 import com.wakamayu.jucu.health.check.injector.promise.ExecutePromise;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
 import javax.inject.Named;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.Invocation;
 import javax.ws.rs.client.WebTarget;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
 
 /**
  *
@@ -39,14 +46,22 @@ public class PromiseWebhook {
 
     private void promiseTarget(HealthCheckModel checkModel) {
         List<PromiseTarget> promiseTracers = new ArrayList();
-        if (checkModel != null && checkModel.getTracer() != null) {
-            System.err.println(checkModel);
-            for (TracerModel tracerModel : checkModel.getTracer()) {
-                tracerModel.setComponentName(checkModel.getName());
-                PromiseTarget promiseTarget = promiseTarget(checkModel.getWebhook(), tracerModel);
-                promiseTracers.add(promiseTarget);
+        try {
+            if (checkModel != null && checkModel.getTracer() != null) {
+
+                UriBuilder builder = UriBuilder.fromUri(new URI(checkModel.getWebhook()));
+                builder.queryParam("status", checkModel.getStatus().toString());
+
+                for (TracerModel tracerModel : checkModel.getTracer()) {
+                    tracerModel.setComponentName(checkModel.getName());
+                    PromiseTarget promiseTarget = promiseTarget(builder.toString(), tracerModel);
+                    promiseTracers.add(promiseTarget);
+                }
+                promiseTarget(promiseTracers);
+
             }
-            promiseTarget(promiseTracers);
+        } catch (URISyntaxException ex) {
+            Logger.getLogger(PromiseWebhook.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

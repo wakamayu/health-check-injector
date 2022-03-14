@@ -20,15 +20,6 @@ public abstract class AbstractFactoryHealthCheck {
 
     public static FactoryHealthCheck INITIAL_HEALTH_CHECK = new FactoryHealthCheck() {
 
-//        @Override
-//        public void configure(FactoryHealthCheckConfigure healthCheckConfigure) {
-//                    LOGGER.log(Level.INFO, "No se configurado Health Check");
-//        }
-//
-//        @Override
-//        public void build() {
-//                    LOGGER.log(Level.INFO, "No se ha logrado construir el Health Check");
-//        }
 
         @Override
         public ResponseHealth readyLiveness() {
@@ -46,23 +37,5 @@ public abstract class AbstractFactoryHealthCheck {
         }
 
     };
-
-//    public static FactoryHealthCheckConfigure INITIAL_HEALTH_CHECK_CONFIGURE = new FactoryHealthCheckConfigure() {
-//        @Override
-//        public DriverModel getDriverModel() {
-//            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//        }
-//
-//        @Override
-//        public void configure(String filePath) {
-//            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//        }
-//
-//        @Override
-//        public boolean check() {
-//            throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-//        }
-//
-//    };
 
 }

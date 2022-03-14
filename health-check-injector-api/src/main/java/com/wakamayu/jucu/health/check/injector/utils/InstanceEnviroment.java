@@ -45,11 +45,8 @@ public class InstanceEnviroment {
     public void configure(InputStream inputStream) throws FileNotFoundException, IOException {
         Properties properties = new Properties();
         properties.load(inputStream);
-        System.out.println("com.wakamayu.jucu.health.check.injector.utils.InstanceEnviroment.configure()");
         for (String name : properties.stringPropertyNames()) {
             if (name.indexOf("healthcheck") > -1) {
-                System.out.println("name" + name);
-                System.out.println(properties.getProperty(name));
                 this.properties.put(clearKey(name), properties.getProperty(name));
             }
         }
@@ -84,8 +81,6 @@ public class InstanceEnviroment {
         } else if (file != null && file.indexOf("META-INF") > 0) {
             resultUriFile = InstanceEnviroment.class.getResource(file).getFile();
         }
-        System.out.println("com.wakamayu.jucu.health.check.injector.utils.InstanceEnviroment.rootUriFile()");
-        System.out.println(resultUriFile);
         return resultUriFile;
     }
 
@@ -94,7 +89,6 @@ public class InstanceEnviroment {
     }
 
     private String clearKey(String key) {
-//        //System.out.println("com.wakamayu.jucu.health.check.injector.utils.InstanceEnviroment.clearKey()");
         return key.replaceAll("[^a-zA-Z0-9]", ".");
     }
 
