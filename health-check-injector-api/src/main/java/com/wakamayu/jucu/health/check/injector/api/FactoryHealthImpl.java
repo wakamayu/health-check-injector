@@ -89,20 +89,17 @@ public class FactoryHealthImpl implements FactoryHealth {
 
     @Override
     public ResponseHealth all() {
-        //System.out.println("com.wakamayu.jucu.health.check.injector.api.FactoryHealthImpl.all()");
         return build();
 
     }
 
     @Override
     public ResponseHealth readyLiveness() {
-        //System.out.println("com.wakamayu.jucu.health.check.injector.api.FactoryHealthImpl.readyLiveness()");
         return build(healthCheckModel.getLiveness());
     }
 
     @Override
     public ResponseHealth readyReadiness() {
-        //System.out.println("com.wakamayu.jucu.health.check.injector.api.FactoryHealthImpl.readyReadiness()");
         return build(healthCheckModel.getRediness());
     }
 
@@ -130,7 +127,6 @@ public class FactoryHealthImpl implements FactoryHealth {
 
     private void setterChecks(HealthCheckResponseBuilder checkResponseBuilder, TracerModel tracerModel) {
 
-        //System.out.println("com.wakamayu.jucu.health.check.injector.microprofile.FactoryHealthCheckMicroprofile.setterMemory()");
         setterProperties(checkResponseBuilder, "driver", tracerModel.getDriver());
         setterProperties(checkResponseBuilder, "domain", tracerModel.getDomain());
         setterProperties(checkResponseBuilder, "ip", tracerModel.getIp());

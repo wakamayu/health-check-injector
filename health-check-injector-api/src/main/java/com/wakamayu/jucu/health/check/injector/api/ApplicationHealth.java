@@ -69,7 +69,6 @@ public class ApplicationHealth extends Application {
             }
             health.configure(factoryconfigure);
         } catch (ClassNotFoundException | IOException ex) {
-            System.out.println(ex);
             Logger.getLogger(Application.class.getName()).log(Level.SEVERE, null, ex);
         }
 

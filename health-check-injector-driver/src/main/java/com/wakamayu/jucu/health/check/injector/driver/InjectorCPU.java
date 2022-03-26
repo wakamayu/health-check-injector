@@ -47,7 +47,6 @@ public class InjectorCPU implements Driver {
 
 		double min = model.getMin();
 
-		System.out.println("Cpu usage: " + percent + "%");
 		model.setRate(percent);
 		
 		if(percent <= min && percent <= max) {
@@ -75,7 +74,6 @@ public class InjectorCPU implements Driver {
 			int numberOfCpus = operatingSystemMXBean.getAvailableProcessors();
 			
 			if (prevUpTime > 0L && upTime > prevUpTime) {
-				System.out.println("Entro");
 				long elapsedCpu = processCpuTime - prevProcessCpuTime;
 				
 				long elapsedTime = upTime - prevUpTime;
@@ -88,7 +86,6 @@ public class InjectorCPU implements Driver {
 			prevUpTime = upTime;
 			prevProcessCpuTime = processCpuTime;
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
 			processCpuUsage = DEFAULT_DOUBLE_VALUE;
 		}
 		return processCpuUsage;

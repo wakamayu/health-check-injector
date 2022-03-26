@@ -47,7 +47,7 @@ public class PromiseWebhook {
     private void promiseTarget(HealthCheckModel checkModel) {
         List<PromiseTarget> promiseTracers = new ArrayList();
         try {
-            if (checkModel != null && checkModel.getTracer() != null) {
+            if (checkModel != null && checkModel.getTracer() != null && checkModel.getWebhook() != null && !checkModel.getWebhook().isEmpty()) {
 
                 UriBuilder builder = UriBuilder.fromUri(new URI(checkModel.getWebhook()));
                 builder.queryParam("status", checkModel.getStatus().toString());

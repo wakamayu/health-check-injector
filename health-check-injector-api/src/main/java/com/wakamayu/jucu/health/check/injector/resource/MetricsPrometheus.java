@@ -28,7 +28,6 @@ public class MetricsPrometheus {
     @Produces(MediaType.TEXT_PLAIN)
     @Consumes(MediaType.TEXT_PLAIN)
     public StreamingOutput metrics() {
-        System.out.println("com.wakamayu.jucu.health.check.injector.resource.MetricsPrometheus.metrics()");
         return output -> {
             try ( Writer writer = new OutputStreamWriter(output)) {
                 TextFormat.write004(writer, CollectorRegistry.defaultRegistry.metricFamilySamples());
