@@ -36,23 +36,19 @@ public class InjectorMemory implements Driver {
             long freeMemory = Runtime.getRuntime().freeMemory();
             long totalMemory = Runtime.getRuntime().totalMemory();
             long usageMemory = totalMemory - freeMemory;
-            double percentaje = (usageMemory*100) / totalMemory;
+            double percent = (usageMemory*100) / totalMemory;
 
             Double max = model.getMax();
             Double min = model.getMin();
 
-            if (max >= percentaje && min <= percentaje) {
-                model.setStatus(TypeStatus.AVAILABILITY);
-
-            } else if (max <= percentaje && 90 >= percentaje) {
-                model.setStatus(TypeStatus.CRITICAL);
-
-            } else {
-                model.setStatus(TypeStatus.UNAVAILABILITY);
-
-            }
-
-            model.setRate(percentaje);
+        	if(percent <= min && percent <= max) {
+    			model.setStatus(TypeStatus.AVAILABILITY);
+    		}else if ( percent > min && percent <= max) {
+    			model.setStatus(TypeStatus.CRITICAL);			
+    		}else {
+    			model.setStatus(TypeStatus.UNAVAILABILITY);
+    		}
+            model.setRate(percent);
 
         }
         osMemoryUsedRatio.dec();

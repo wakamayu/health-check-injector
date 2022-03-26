@@ -30,61 +30,67 @@ public class InjectorCPU implements Driver {
 //            .help("request latency in seconds")
 //            .register();
 
+	private long prevUpTime = 0;
 
-    private long prevUpTime = 0;
+	private long prevProcessCpuTime = 0;
 
-    private long prevProcessCpuTime = 0;
+	private double DEFAULT_DOUBLE_VALUE = 1.0;
 
-    private double DEFAULT_DOUBLE_VALUE = -1.0;
+	private ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
 
-    private ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
+	@Override
+	public TracerModel execute(TracerModel model) {
 
-    @Override
-    public TracerModel execute(TracerModel model) {
+		double percent = getProcessCpuUsage();
 
-        double percent = getProcessCpuUsage();
-        
-        double max = model.getMax();
-        
-        double min = model.getMin();
-        
-        System.out.println("Cpu usage: " + percent + "%");
-        model.setRate(percent);
-        if (max >= percent && min <= percent) {
-            model.setStatus(TypeStatus.AVAILABILITY);
-        } else if (max <= percent && 90 >= percent) {
-            model.setStatus(TypeStatus.CRITICAL);
-        } else {
-            model.setStatus(TypeStatus.UNAVAILABILITY);
-        }
+		double max = model.getMax();
 
-        return model;
-    }
+		double min = model.getMin();
 
-    public double getProcessCpuUsage() {
-        double processCpuUsage;
-        try {
-            RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
-            com.sun.management.OperatingSystemMXBean operatingSystemMXBean = (com.sun.management.OperatingSystemMXBean) ManagementFactory.getOperatingSystemMXBean();
-            
-            long upTime = runtimeMXBean.getUptime();
-            
-            long processCpuTime = operatingSystemMXBean.getProcessCpuTime();
-            
-             int numberOfCpus = operatingSystemMXBean.getAvailableProcessors();
-            
-             if (prevUpTime > 0L && upTime > prevUpTime) {
-                long elapsedCpu = processCpuTime - prevProcessCpuTime;
-                long elapsedTime = upTime - prevUpTime;
-                processCpuUsage = Math.min(99F, elapsedCpu / (elapsedTime * 10000F * numberOfCpus));
-            } else {
-                processCpuUsage = DEFAULT_DOUBLE_VALUE;
-            }
-            prevUpTime = upTime;
-            prevProcessCpuTime = processCpuTime;
-        } catch (Exception e) {
-            processCpuUsage = DEFAULT_DOUBLE_VALUE;
-        }
-        return processCpuUsage;
-    }
+		System.out.println("Cpu usage: " + percent + "%");
+		model.setRate(percent);
+		
+		if(percent <= min && percent <= max) {
+			model.setStatus(TypeStatus.AVAILABILITY);
+		}else if ( percent > min && percent <= max) {
+			model.setStatus(TypeStatus.CRITICAL);			
+		}else {
+			model.setStatus(TypeStatus.UNAVAILABILITY);
+		}
+
+		return model;
+	}
+
+	public double getProcessCpuUsage() {
+		double processCpuUsage;
+		try {
+			RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
+			com.sun.management.OperatingSystemMXBean operatingSystemMXBean = (com.sun.management.OperatingSystemMXBean) ManagementFactory
+					.getOperatingSystemMXBean();
+
+			long upTime = runtimeMXBean.getUptime();
+
+			long processCpuTime = operatingSystemMXBean.getProcessCpuTime();
+
+			int numberOfCpus = operatingSystemMXBean.getAvailableProcessors();
+			
+			if (prevUpTime > 0L && upTime > prevUpTime) {
+				System.out.println("Entro");
+				long elapsedCpu = processCpuTime - prevProcessCpuTime;
+				
+				long elapsedTime = upTime - prevUpTime;
+				
+				processCpuUsage = Math.min(99F, elapsedCpu / (elapsedTime * 10000F * numberOfCpus));
+			} else {
+				processCpuUsage = DEFAULT_DOUBLE_VALUE;
+			}
+			
+			prevUpTime = upTime;
+			prevProcessCpuTime = processCpuTime;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			processCpuUsage = DEFAULT_DOUBLE_VALUE;
+		}
+		return processCpuUsage;
+	}
 }
