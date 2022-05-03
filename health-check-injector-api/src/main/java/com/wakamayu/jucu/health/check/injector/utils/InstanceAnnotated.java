@@ -7,14 +7,15 @@ package com.wakamayu.jucu.health.check.injector.utils;
 
 
 import java.lang.annotation.Annotation;
-import javax.ejb.Stateless;
+
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.inject.Instance;
 
 /**
  *
  * @author carlos
  */
-@Stateless
+@RequestScoped
 public class InstanceAnnotated {
 
     public <T> T find(Instance<T> instances, Annotation annotation) {

@@ -9,7 +9,10 @@ import com.wakamayu.jucu.health.check.injector.interfaces.Driver;
 import com.wakamayu.jucu.health.check.injector.configure.TracerModel;
 import com.wakamayu.jucu.health.check.injector.enums.TypeStatus;
 import io.prometheus.client.Gauge;
+
+import javax.ejb.Stateful;
 import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 
 /**
@@ -18,19 +21,15 @@ import javax.inject.Named;
  */
 @Named("MEMORY")
 @Stateless
+//@Stateful
 public class InjectorMemory implements Driver {
 
-    static final Gauge osMemoryUsedRatio = Gauge.build().name("os_memory_used_ratio")
-            .help("The ratio of the systems memory that is currently used (values are 0-1)").register();
-
-//    private static final Summary osHandlerMemoryLatencySeconds = Summary.build()
-//            .name("promhttp_metric_handler_memory_latency_seconds")
-//            .help("request latency in seconds")
-//            .register();
+//    static final Gauge osMemoryUsedRatio = Gauge.build().name("os_memory_used_ratio")
+//            .help("The ratio of the systems memory that is currently used (values are 0-1)").register();
     @Override
     public TracerModel execute(TracerModel model) {
         // Summary.Timer summaryTimer = osHandlerMemoryLatencySeconds.startTimer();
-        osMemoryUsedRatio.inc();
+//        osMemoryUsedRatio.inc();
         if (model.getMax() != null && model.getMin() != null) {
 
             long freeMemory = Runtime.getRuntime().freeMemory();
@@ -51,7 +50,7 @@ public class InjectorMemory implements Driver {
             model.setRate(percent);
 
         }
-        osMemoryUsedRatio.dec();
+//        osMemoryUsedRatio.dec();
         // summaryTimer.observeDuration();
         return model;
     }

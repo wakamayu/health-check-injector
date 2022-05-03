@@ -10,11 +10,16 @@ import com.wakamayu.jucu.health.check.injector.configure.TracerModel;
 import com.wakamayu.jucu.health.check.injector.enums.TypeStatus;
 import io.prometheus.client.Gauge;
 import io.prometheus.client.Summary;
+
+import javax.ejb.Singleton;
+import javax.ejb.Stateful;
+import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
+
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import javax.ejb.Stateless;
 import javax.inject.Named;
 
 /**
@@ -23,22 +28,23 @@ import javax.inject.Named;
  */
 @Named("HTTP")
 @Stateless
+//@Singleton
 public class InjectorHttp implements Driver {
 
-    private Gauge promhttpMetricHandlerRequestsProgress = Gauge.build()
-            .name("promhttp_metric_handler_requests_progress")
-            .help("Inprogress requests.")
-            .register();
-
-    private Summary promhttpMetricHandlerRequestsLatencySeconds = Summary.build()
-            .name("promhttp_metric_handler_requests_latency_seconds")
-            .help("request latency in seconds")
-            .register();
-
-    private Summary promhttpMetricHandlerRequestsSizeBytes = Summary.build()
-            .name("promhttp_metric_handler_requests_size_bytes")
-            .help("request size in bytes")
-            .register();
+//    private Gauge promhttpMetricHandlerRequestsProgress = Gauge.build()
+//            .name("promhttp_metric_handler_requests_progress")
+//            .help("Inprogress requests.")
+//            .register();
+//
+//    private Summary promhttpMetricHandlerRequestsLatencySeconds = Summary.build()
+//            .name("promhttp_metric_handler_requests_latency_seconds")
+//            .help("request latency in seconds")
+//            .register();
+//
+//    private Summary promhttpMetricHandlerRequestsSizeBytes = Summary.build()
+//            .name("promhttp_metric_handler_requests_size_bytes")
+//            .help("request size in bytes")
+//            .register();
 
     @Override
     public TracerModel execute(TracerModel model) {
@@ -60,10 +66,10 @@ public class InjectorHttp implements Driver {
     }
 
     public boolean validateURL(String urlString) throws IOException {
-        Summary.Timer summaryTimer = promhttpMetricHandlerRequestsLatencySeconds.startTimer();
+//        Summary.Timer summaryTimer = promhttpMetricHandlerRequestsLatencySeconds.startTimer();
         HttpURLConnection httpURLConnection = null;
         try {
-            promhttpMetricHandlerRequestsProgress.inc();
+//            promhttpMetricHandlerRequestsProgress.inc();
             URL url = new URL(urlString);
             httpURLConnection = HttpURLConnection.class.cast(url.openConnection());
             httpURLConnection.setConnectTimeout(50000);
@@ -76,13 +82,13 @@ public class InjectorHttp implements Driver {
 
             return false;
         } finally {
-            summaryTimer.observeDuration();
-            if (httpURLConnection != null) {
-                promhttpMetricHandlerRequestsSizeBytes.observe(httpURLConnection.getContentLengthLong());
-                promhttpMetricHandlerRequestsProgress.dec();
-            } else {
-                promhttpMetricHandlerRequestsProgress.dec();
-            }
+//            summaryTimer.observeDuration();
+//            if (httpURLConnection != null) {
+//                promhttpMetricHandlerRequestsSizeBytes.observe(httpURLConnection.getContentLengthLong());
+//                promhttpMetricHandlerRequestsProgress.dec();
+//            } else {
+//                promhttpMetricHandlerRequestsProgress.dec();
+//            }
         }
     }
 

@@ -13,13 +13,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
     </properties>
     <dependencies>
-        <dependency>
-            <groupId>org.eclipse.microprofile.health</groupId>
-            <artifactId>microprofile-health-api</artifactId>
-            <version>4.0</version>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
+       <dependency>
             <groupId>com.wakamayu.jucu</groupId>
             <artifactId>health-check-injector-model</artifactId>
             <version>0.0.1</version>

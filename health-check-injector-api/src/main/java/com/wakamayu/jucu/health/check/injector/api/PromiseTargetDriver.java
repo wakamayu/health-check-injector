@@ -12,22 +12,24 @@ import com.wakamayu.jucu.health.check.injector.interfaces.PromiseTarget;
 import com.wakamayu.jucu.health.check.injector.configure.TracerModel;
 import com.wakamayu.jucu.health.check.injector.promise.ExecutePromise;
 import com.wakamayu.jucu.health.check.injector.utils.InstanceAnnotated;
+
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Any;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 import java.util.TimeZone;
 import java.util.function.Consumer;
-import javax.ejb.Stateless;
-import javax.enterprise.inject.Any;
-import javax.enterprise.inject.Instance;
-import javax.inject.Inject;
 
 /**
  *
  * @author carlos
  */
-@Stateless
+@RequestScoped
 public class PromiseTargetDriver {
 
     @Inject
@@ -62,7 +64,11 @@ public class PromiseTargetDriver {
     public void build(Collection<TracerModel> driverTracerModels) {
         promiseTracers = new ArrayList();
         driverTracerModels.forEach((Consumer<TracerModel>) (tracerModel) -> {
+            System.out.println("-----------------------------------------------------PromiseTarget Driver");
+            System.out.println(tracerModel.getType());
             Driver driver = annotated.find(instancesDrivers, new AnnotatedName(tracerModel.getType().name()));
+
+            System.out.println(driver);
             if (driver != null) {
                 attachInitDate(tracerModel);
                 promiseTracers.add((PromiseTarget) (Action action, Object data) -> {

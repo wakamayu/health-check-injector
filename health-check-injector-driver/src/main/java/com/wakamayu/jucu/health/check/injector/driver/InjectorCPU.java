@@ -1,25 +1,28 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.wakamayu.jucu.health.check.injector.driver;
 
 import com.wakamayu.jucu.health.check.injector.configure.TracerModel;
 import com.wakamayu.jucu.health.check.injector.enums.TypeStatus;
 import com.wakamayu.jucu.health.check.injector.interfaces.Driver;
+
+//import javax.ejb.Singleton;
+import javax.ejb.Stateful;
+import javax.ejb.Stateless;
+
+import javax.inject.Named;
+import javax.inject.Singleton;
+
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;
 import java.lang.management.ThreadMXBean;
-import javax.ejb.Stateless;
-import javax.inject.Named;
-
+import com.sun.management.OperatingSystemMXBean;
 /**
  *
  * @author carlos
  */
 @Named("CPU")
-@Stateless
+//@RequestScoped
+//@Stateless
+@Singleton
 public class InjectorCPU implements Driver {
 
 //    private Gauge osCPUUsedRatio = Gauge.build().name("os_memory_used_ratio")
@@ -34,7 +37,7 @@ public class InjectorCPU implements Driver {
 
 	private long prevProcessCpuTime = 0;
 
-	private double DEFAULT_DOUBLE_VALUE = 1.0;
+	private final double DEFAULT_DOUBLE_VALUE = -1.0;
 
 	private ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
 
@@ -64,7 +67,7 @@ public class InjectorCPU implements Driver {
 		double processCpuUsage;
 		try {
 			RuntimeMXBean runtimeMXBean = ManagementFactory.getRuntimeMXBean();
-			com.sun.management.OperatingSystemMXBean operatingSystemMXBean = (com.sun.management.OperatingSystemMXBean) ManagementFactory
+			OperatingSystemMXBean operatingSystemMXBean = (OperatingSystemMXBean) ManagementFactory
 					.getOperatingSystemMXBean();
 
 			long upTime = runtimeMXBean.getUptime();
@@ -86,6 +89,7 @@ public class InjectorCPU implements Driver {
 			prevUpTime = upTime;
 			prevProcessCpuTime = processCpuTime;
 		} catch (Exception e) {
+			e.printStackTrace();
 			processCpuUsage = DEFAULT_DOUBLE_VALUE;
 		}
 		return processCpuUsage;

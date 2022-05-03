@@ -10,6 +10,9 @@ import com.fasterxml.jackson.dataformat.javaprop.JavaPropsFactory;
 import com.fasterxml.jackson.dataformat.javaprop.JavaPropsMapper;
 import com.wakamayu.jucu.health.check.injector.configure.ConfigureModel;
 import com.wakamayu.jucu.health.check.injector.enums.TypeConfig;
+
+import javax.inject.Singleton;
+
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -19,7 +22,7 @@ import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.inject.Singleton;
+
 
 /**
  *

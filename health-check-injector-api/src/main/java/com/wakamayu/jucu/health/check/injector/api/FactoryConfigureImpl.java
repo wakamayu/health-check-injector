@@ -9,19 +9,25 @@ import com.wakamayu.jucu.health.check.injector.configure.HealthCheckModel;
 import com.wakamayu.jucu.health.check.injector.enums.TypeConfig;
 import com.wakamayu.jucu.health.check.injector.interfaces.FactoryConfigure;
 import com.wakamayu.jucu.health.check.injector.utils.InstanceEnviroment;
+
+import javax.enterprise.context.RequestScoped;
+import javax.inject.Inject;
+import javax.inject.Singleton;
+
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
+
+
 
 /**
  *
  * @author carlos
  */
 @Singleton
-@Named("FACTORY-CONFIGURE")
+//@RequestScoped
+//@Named("FACTORY-CONFIGURE")
+//@Stateless
 public class FactoryConfigureImpl implements FactoryConfigure {
 
     private static final String URI_FILE = "/META-INF/healthcheck-config.properties";
@@ -82,5 +88,14 @@ public class FactoryConfigureImpl implements FactoryConfigure {
         }
 
     }
+
+	@Override
+	public String toString() {
+		return "FactoryConfigureImpl [uriFile=" + uriFile + ", typeConfig=" + typeConfig + ", instanceEnviroment="
+				+ instanceEnviroment + ", isValid()=" + isValid() + ", getHealthCheckModel()=" + getHealthCheckModel()
+				+ ", getClass()=" + getClass() + ", hashCode()=" + hashCode() + ", toString()=" + super.toString()
+				+ "]";
+	}
+    
 
 }

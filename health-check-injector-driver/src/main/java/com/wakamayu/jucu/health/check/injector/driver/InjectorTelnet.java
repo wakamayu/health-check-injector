@@ -6,6 +6,11 @@
 package com.wakamayu.jucu.health.check.injector.driver;
 
 import com.wakamayu.jucu.health.check.injector.interfaces.Driver;
+
+import javax.ejb.Stateful;
+import javax.ejb.Stateless;
+import javax.enterprise.context.RequestScoped;
+
 import com.wakamayu.jucu.health.check.injector.configure.TracerModel;
 import com.wakamayu.jucu.health.check.injector.enums.TypeStatus;
 import java.io.IOException;
@@ -13,7 +18,6 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.SocketTimeoutException;
-import javax.ejb.Stateless;
 import javax.inject.Named;
 
 /**
@@ -21,7 +25,8 @@ import javax.inject.Named;
  * @author carlos
  */
 @Named("IP_PORT")
-@Stateless
+//@Stateless
+@Stateful
 public class InjectorTelnet implements Driver {
 
     @Override

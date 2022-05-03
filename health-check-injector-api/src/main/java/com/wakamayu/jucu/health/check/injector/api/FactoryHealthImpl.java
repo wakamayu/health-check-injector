@@ -13,14 +13,18 @@ import com.wakamayu.jucu.health.check.injector.interfaces.FactoryHealth;
 import com.wakamayu.jucu.health.check.injector.model.ResponseHealth;
 import com.wakamayu.jucu.health.check.injector.utils.InstanceAnnotated;
 import io.prometheus.client.Gauge;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.enterprise.context.RequestScoped;
 import javax.enterprise.event.Event;
 import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+
 import org.eclipse.microprofile.health.HealthCheckResponse;
 import org.eclipse.microprofile.health.HealthCheckResponseBuilder;
 
@@ -28,8 +32,10 @@ import org.eclipse.microprofile.health.HealthCheckResponseBuilder;
  *
  * @author carlos
  */
+//@Singleton
 @Singleton
-@Named("FACTORY-HEALTH")
+//@Named("FACTORY-HEALTH")
+//@Stateless
 public class FactoryHealthImpl implements FactoryHealth {
 
     static final Gauge inprogressRequests = Gauge.build()
@@ -50,9 +56,11 @@ public class FactoryHealthImpl implements FactoryHealth {
 
     @Override
     public void configure(FactoryConfigure factoryConfigure) {
+    	//System.out.println(factoryConfigure);
         if (factoryConfigure.isValid()) {
             healthCheckModel = factoryConfigure.getHealthCheckModel();
             healthCheckModel.getTracer().forEach((x) -> {
+            	System.out.println(x);
                 mapTracerModel.put(x.getName(), x);
             });
         }
