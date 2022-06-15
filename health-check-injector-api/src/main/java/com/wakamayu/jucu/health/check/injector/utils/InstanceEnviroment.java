@@ -79,10 +79,10 @@ public class InstanceEnviroment {
     private String rootUriFile(String file) {
         String key_enviroment = System.getenv("HEALTH_CHECK_CONFIG");
         String resultUriFile = "";
-        if (key_enviroment != null && isValidFile(key_enviroment)) {
-            resultUriFile = key_enviroment;
-        } else if (file != null && file.indexOf("META-INF") > 0) {
+        if (file != null && file.indexOf("META-INF") > 0) {
             resultUriFile = InstanceEnviroment.class.getResource(file).getFile();
+        } else if ( key_enviroment != null && !key_enviroment.isEmpty()){
+        	resultUriFile = key_enviroment;
         }
         return resultUriFile;
     }
