@@ -12,6 +12,12 @@ import com.wakamayu.jucu.health.check.injector.interfaces.PromiseTarget;
 import com.wakamayu.jucu.health.check.injector.configure.TracerModel;
 import com.wakamayu.jucu.health.check.injector.promise.ExecutePromise;
 import com.wakamayu.jucu.health.check.injector.utils.InstanceAnnotated;
+
+import javax.enterprise.context.RequestScoped;
+import javax.enterprise.inject.Any;
+import javax.enterprise.inject.Instance;
+import javax.inject.Inject;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;

@@ -46,4 +46,6 @@ nb-configuration.xml
 .idea/*
 nb-configuration.xml
 *.svn-base
-
+.project
+.classpath
+.settings/*

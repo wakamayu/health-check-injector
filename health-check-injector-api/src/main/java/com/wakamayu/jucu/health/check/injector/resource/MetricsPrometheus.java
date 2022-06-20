@@ -20,7 +20,7 @@ import javax.ws.rs.core.StreamingOutput;
  *
  * @author carlos
  */
-@Path("prometheus")
+@Path("strategy/prometheus")
 public class MetricsPrometheus {
 
     @GET

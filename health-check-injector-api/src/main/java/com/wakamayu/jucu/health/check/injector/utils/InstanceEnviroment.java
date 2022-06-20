@@ -14,7 +14,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -28,72 +30,84 @@ import javax.inject.Singleton;
 @Singleton
 public class InstanceEnviroment {
 
-    private Properties properties = new Properties();
+	private Properties properties = new Properties();
 
-    private ConfigureModel configureModel = new ConfigureModel();
+	private ConfigureModel configureModel = new ConfigureModel();
 
-    private void load(String filePath, TypeConfig config) throws FileNotFoundException, IOException {
-        if (filePath != null) {
-            InputStream inputStream = new FileInputStream(rootUriFile(filePath));
-            if (inputStream.available() > 0) {
-                configure(inputStream);
-            }
-        }
+	private void load(String filePath, TypeConfig config) throws FileNotFoundException, IOException {
+		if (filePath != null && !filePath.isEmpty()) {
+			InputStream inputStream = new FileInputStream(rootUriFile(filePath));
+			if (inputStream.available() > 0) {
+				configure(inputStream);
+			}
+		}
+	}
 
-    }
+	public void configure(InputStream inputStream) throws FileNotFoundException, IOException {
+		Properties properties = new Properties();
+		properties.load(inputStream);
+		for (String name : properties.stringPropertyNames()) {
+			if (name.indexOf("healthcheck") > -1) {
+				this.properties.put(clearKey(name), properties.getProperty(name));
+			}
+		}
+		configure(this.properties);
+	}
 
-    public void configure(InputStream inputStream) throws FileNotFoundException, IOException {
-        Properties properties = new Properties();
-        properties.load(inputStream);
-        for (String name : properties.stringPropertyNames()) {
-            if (name.indexOf("healthcheck") > -1) {
-                this.properties.put(clearKey(name), properties.getProperty(name));
-            }
-        }
-        configure(this.properties);
-    }
+	public void configure(Properties properties) throws IOException {
+		if (!properties.isEmpty()) {
+			JavaPropsFactory factory = new JavaPropsFactory();
+			factory.setRootValueSeparator("_");
+			JavaPropsMapper mapper = new JavaPropsMapper();
+			mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
+			configureModel = mapper.readPropertiesAs(properties, ConfigureModel.class);
+		}
+	}
 
-    public void configure(Properties properties) throws IOException {
-        if (!properties.isEmpty()) {
-            JavaPropsFactory factory = new JavaPropsFactory();
-            factory.setRootValueSeparator("_");
-            JavaPropsMapper mapper = new JavaPropsMapper();
-            mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
-            configureModel = mapper.readPropertiesAs(properties, ConfigureModel.class);
-        }
-    }
+	public void configure(String filePath, TypeConfig config) {
+		try {
+			boolean checkValidFile = isValidFile(filePath);
+			if (checkValidFile) {
+				load(filePath, config);
+			}
+		} catch (IOException ex) {
+			Logger.getLogger(InstanceEnviroment.class.getName()).log(Level.SEVERE, null, ex);
+		}
+	}
 
-    public void configure(String filePath, TypeConfig config) {
-        try {
-            if (isValidFile(filePath)) {
-                load(filePath, config);
-            }
-        } catch (IOException ex) {
-            Logger.getLogger(InstanceEnviroment.class.getName()).log(Level.SEVERE, null, ex);
-        }
-    }
+	private String rootUriFile(String file) {
+		String key_enviroment = System.getenv("HEALTH_CHECK_CONFIG");
+		String resultUriFile = "";
+		if (key_enviroment != null && !key_enviroment.isEmpty()) {
+			resultUriFile = key_enviroment;
+		} else if (file != null && file.indexOf("META-INF") > 0){
+			URL urlResource = InstanceEnviroment.class.getResource(file);
+			if (urlResource != null) {
+				resultUriFile = urlResource.getFile();
+			}
+		}
+		return resultUriFile;
+	}
 
-    private String rootUriFile(String file) {
-        String key_enviroment = System.getenv("HEALTH_CHECK_CONFIG");
-        String resultUriFile = "";
-        if (file != null && file.indexOf("META-INF") > 0) {
-            resultUriFile = InstanceEnviroment.class.getResource(file).getFile();
-        } else if ( key_enviroment != null && !key_enviroment.isEmpty()){
-        	resultUriFile = key_enviroment;
-        }
-        return resultUriFile;
-    }
+	public boolean isValidFile(String uriFile) {
+		boolean checkValidFile = false;
+		String rootPath = rootUriFile(uriFile);
+		if (!rootPath.isEmpty()) {
+			checkValidFile = Files.exists(Paths.get(rootPath));
+		}
+		return checkValidFile;
+	}
 
-    public boolean isValidFile(String uriFile) {
-        return Files.exists(Paths.get(rootUriFile(uriFile)));
-    }
+	private String clearKey(String key) {
+		return key.replaceAll("[^a-zA-Z0-9]", ".");
+	}
 
-    private String clearKey(String key) {
-        return key.replaceAll("[^a-zA-Z0-9]", ".");
-    }
+	public boolean isEmpty() {
+		return configureModel.getHealthcheck() == null;
+	}
 
-    public ConfigureModel getConfigureModel() {
-        return configureModel;
-    }
+	public ConfigureModel getConfigureModel() {
+		return configureModel;
+	}
 
 }
