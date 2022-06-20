@@ -48,4 +48,6 @@ nb-configuration.xml
 *.svn-base
 .project
 .classpath
-.settings/*
+bin/*
+bin/
+.settings/
