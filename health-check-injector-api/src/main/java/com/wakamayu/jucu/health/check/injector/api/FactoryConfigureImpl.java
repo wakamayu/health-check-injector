@@ -23,7 +23,6 @@ import javax.inject.Named;
  * @author carlos
  */
 @Singleton
-@Named("FACTORY-CONFIGURE")
 public class FactoryConfigureImpl implements FactoryConfigure {
 
 	private static final String URI_FILE = "/META-INF/healthcheck-config.properties";

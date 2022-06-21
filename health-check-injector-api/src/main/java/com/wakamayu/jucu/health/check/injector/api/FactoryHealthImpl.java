@@ -32,7 +32,6 @@ import org.eclipse.microprofile.health.HealthCheckResponseBuilder;
  * @author carlos
  */
 @Singleton
-@Named("FACTORY-HEALTH")
 public class FactoryHealthImpl implements FactoryHealth {
 
 	static final Gauge inprogressRequests = Gauge.build().name("inprogress_requests").help("Inprogress requests.")
