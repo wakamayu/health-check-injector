@@ -16,8 +16,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 @Path("health")
-//@Consumes("application/json")
-//@Produces("application/json")
+@Singleton
 public class HealthResource {
 
 	@Inject
@@ -25,18 +24,27 @@ public class HealthResource {
 	FactoryHealthCheck factoryHealthCheck;
 
 	@GET
+	@Consumes("application/json")
+	@Produces("application/json")
+
 	public Response all() {
 		return buildResponse(factoryHealthCheck.ready());
 	}
 
 	@GET
 	@Path("live")
+	@Consumes("application/json")
+	@Produces("application/json")
+
 	public Response liveness() {
 		return buildResponse(factoryHealthCheck.readyLiveness());
 	}
 
 	@GET
 	@Path("ready")
+	@Consumes("application/json")
+	@Produces("application/json")
+
 	public Response readiness() {
 
 		return buildResponse(factoryHealthCheck.readyReadiness());

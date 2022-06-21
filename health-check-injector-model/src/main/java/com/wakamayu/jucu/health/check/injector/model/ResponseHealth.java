@@ -8,7 +8,7 @@ package com.wakamayu.jucu.health.check.injector.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+
 
 import org.eclipse.microprofile.health.HealthCheckResponse;
 
