@@ -5,6 +5,8 @@
  */
 package com.wakamayu.jucu.health.check.injector.interfaces;
 
+import java.io.FileNotFoundException;
+
 import com.wakamayu.jucu.health.check.injector.model.ResponseHealth;
 
 /**
@@ -13,7 +15,7 @@ import com.wakamayu.jucu.health.check.injector.model.ResponseHealth;
  */
 public interface FactoryHealth {
 
-    public void configure(FactoryConfigure factoryConfigure);
+    public void configure(FactoryConfigure factoryConfigure) throws FileNotFoundException ;
 
     public ResponseHealth all();
 

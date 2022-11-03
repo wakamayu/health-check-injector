@@ -18,6 +18,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.inject.Singleton;
 
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -50,7 +51,7 @@ public class FactoryHealthImpl implements FactoryHealth {
 	private Map<String, TracerModel> mapTracerModel = new HashMap();
 
 	@Override
-	public void configure(FactoryConfigure factoryConfigure) {
+	public void configure(FactoryConfigure factoryConfigure) throws FileNotFoundException  {
 		if (factoryConfigure.isValid()) {
 			healthCheckModel = factoryConfigure.getHealthCheckModel();
 			if (!healthCheckModel.getTracer().isEmpty())

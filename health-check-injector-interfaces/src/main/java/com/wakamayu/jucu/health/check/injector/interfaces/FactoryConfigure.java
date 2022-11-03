@@ -5,6 +5,8 @@
  */
 package com.wakamayu.jucu.health.check.injector.interfaces;
 
+import java.io.FileNotFoundException;
+
 import com.wakamayu.jucu.health.check.injector.configure.HealthCheckModel;
 import com.wakamayu.jucu.health.check.injector.enums.TypeConfig;
 
@@ -14,9 +16,9 @@ import com.wakamayu.jucu.health.check.injector.enums.TypeConfig;
  */
 public interface FactoryConfigure {
 
-    public void configure(String uriFile, TypeConfig config);
+    public void configure(String uriFile, TypeConfig config) throws FileNotFoundException ;
 
-    public boolean isValid();
+    public boolean isValid() throws FileNotFoundException ;
     
     public void build();
     

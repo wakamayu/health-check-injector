@@ -16,6 +16,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URL;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -35,7 +36,7 @@ public class InstanceEnviroment {
 
 	private void load(String filePath, TypeConfig config) throws FileNotFoundException, IOException {
 		if (filePath != null && !filePath.isEmpty()) {
-			InputStream inputStream = new FileInputStream(rootUriFile(filePath));
+			InputStream inputStream = new FileInputStream(fileConfig(filePath).toString());
 			if (inputStream.available() > 0) {
 				configure(inputStream);
 			}
@@ -73,28 +74,29 @@ public class InstanceEnviroment {
 			Logger.getLogger(InstanceEnviroment.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
-
-	private String rootUriFile(String file) {
-		String key_enviroment = System.getenv("HEALTH_CHECK_CONFIG");
-		String resultUriFile = "";
-		if (key_enviroment != null && !key_enviroment.isEmpty()) {
-			resultUriFile = key_enviroment;
-		} else if (file != null && file.indexOf("META-INF") > 0){
-			URL urlResource = InstanceEnviroment.class.getResource(file);
-			if (urlResource != null) {
-				resultUriFile = urlResource.getFile();
-			}
+	
+	private String fileURL(String file) {
+		String urlFile =  "";
+		String healthCheckConfig = System.getenv("HEALTH_CHECK_CONFIG");
+		if(healthCheckConfig != null && !healthCheckConfig.isEmpty() && !healthCheckConfig.isBlank()) {
+			urlFile = healthCheckConfig;
 		}
-		return resultUriFile;
+		if(file != null && !file.isEmpty() && !file.isBlank()) {
+			urlFile = file;
+		}
+		return urlFile;
 	}
-
-	public boolean isValidFile(String uriFile) {
-		boolean checkValidFile = false;
-		String rootPath = rootUriFile(uriFile);
-		if (!rootPath.isEmpty()) {
-			checkValidFile = Files.exists(Paths.get(rootPath));
+	
+	private Path fileConfig(String urlFile) throws FileNotFoundException {
+		String healthCheckConfig = fileURL(urlFile);
+		if(!healthCheckConfig.isEmpty() && !healthCheckConfig.isBlank()) {
+			return Paths.get(healthCheckConfig).normalize();
 		}
-		return checkValidFile;
+		throw new  FileNotFoundException("file health configuration not found".concat(healthCheckConfig)) ;		
+	}
+	
+	public boolean isValidFile(String uriFile) throws FileNotFoundException {
+		return Files.exists(fileConfig(uriFile));
 	}
 
 	private String clearKey(String key) {

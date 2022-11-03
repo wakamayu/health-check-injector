@@ -13,6 +13,7 @@ import com.wakamayu.jucu.health.check.injector.utils.InstanceEnviroment;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -38,20 +39,20 @@ public class FactoryConfigureImpl implements FactoryConfigure {
 		this.typeConfig = TypeConfig.PROPERTIES;
 	}
 
-	private void configureEnviroment() throws IOException {
-		boolean checkFile = instanceEnviroment.isValidFile(uriFile);
-		if (checkFile) {
-			instanceEnviroment.configure(uriFile, typeConfig);
+	@Override
+	public boolean isValid() throws FileNotFoundException  {
+		boolean pipeValid = false;
+		try {
+			pipeValid= instanceEnviroment != null && instanceEnviroment.isValidFile(uriFile) && !instanceEnviroment.isEmpty();	
+		} catch (FileNotFoundException ex) {
+			Logger.getLogger(FactoryConfigureImpl.class.getName()).log(Level.SEVERE, null, ex);
 		}
+		return pipeValid;
+		
 	}
 
 	@Override
-	public boolean isValid() {
-		return instanceEnviroment != null && instanceEnviroment.isValidFile(uriFile) && !instanceEnviroment.isEmpty();
-	}
-
-	@Override
-	public void configure(String uriFile, TypeConfig typeConfig) {
+	public void configure(String uriFile, TypeConfig typeConfig) throws FileNotFoundException {
 		if (instanceEnviroment.isValidFile(uriFile)) {
 			setUriFile(uriFile);
 			setTypeConfig(typeConfig);
@@ -76,11 +77,13 @@ public class FactoryConfigureImpl implements FactoryConfigure {
 	public void build() {
 		try {
 			if (instanceEnviroment.isValidFile(uriFile)) {
-				configureEnviroment();
+				instanceEnviroment.configure(uriFile, typeConfig);
 			}
+		} catch (FileNotFoundException ex) {
+			Logger.getLogger(FactoryConfigureImpl.class.getName()).log(Level.SEVERE, null, ex);
 		} catch (IOException ex) {
 			Logger.getLogger(FactoryConfigureImpl.class.getName()).log(Level.SEVERE, null, ex);
-		}
+		} 
 
 	}
 
