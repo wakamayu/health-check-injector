@@ -77,9 +77,9 @@ public class InstanceEnviroment {
 	private String fileURL(String file) {
 		String urlFile =  "";
 		String healthCheckConfig = System.getenv("HEALTH_CHECK_CONFIG");
-		if(healthCheckConfig != null && !healthCheckConfig.isEmpty() && !healthCheckConfig.isBlank()) {
+		if(healthCheckConfig != null && !healthCheckConfig.isEmpty()) {
 			urlFile = healthCheckConfig;
-		} else if(file != null && !file.isEmpty() && !file.isBlank()) {
+		} else if(file != null && !file.isEmpty()) {
 			urlFile = file;
 		}
 		return urlFile;
@@ -87,7 +87,7 @@ public class InstanceEnviroment {
 	
 	private Path fileConfig(String urlFile) throws FileNotFoundException {
 		String healthCheckConfig = fileURL(urlFile);
-		if(!healthCheckConfig.isEmpty() && !healthCheckConfig.isBlank()) {
+		if(!healthCheckConfig.isEmpty()) {
 			return Paths.get(healthCheckConfig).normalize();
 		}
 		throw new  FileNotFoundException("file health configuration not found".concat(healthCheckConfig)) ;		
