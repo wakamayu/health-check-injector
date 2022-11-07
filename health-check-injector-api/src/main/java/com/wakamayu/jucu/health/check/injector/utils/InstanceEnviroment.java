@@ -14,13 +14,12 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.logging.Logger;		
 import javax.inject.Singleton;
 
 /**
@@ -80,8 +79,7 @@ public class InstanceEnviroment {
 		String healthCheckConfig = System.getenv("HEALTH_CHECK_CONFIG");
 		if(healthCheckConfig != null && !healthCheckConfig.isEmpty() && !healthCheckConfig.isBlank()) {
 			urlFile = healthCheckConfig;
-		}
-		if(file != null && !file.isEmpty() && !file.isBlank()) {
+		} else if(file != null && !file.isEmpty() && !file.isBlank()) {
 			urlFile = file;
 		}
 		return urlFile;
