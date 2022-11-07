@@ -14,12 +14,14 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Properties;
 import java.util.logging.Level;
-import java.util.logging.Logger;		
+import java.util.logging.Logger;
 import javax.inject.Singleton;
 
 /**
@@ -28,6 +30,8 @@ import javax.inject.Singleton;
  */
 @Singleton
 public class InstanceEnviroment {
+
+	private final static Logger LOGGER = Logger.getLogger(InstanceEnviroment.class.getName());
 
 	private Properties properties = new Properties();
 
@@ -70,29 +74,32 @@ public class InstanceEnviroment {
 				load(filePath, config);
 			}
 		} catch (IOException ex) {
-			Logger.getLogger(InstanceEnviroment.class.getName()).log(Level.SEVERE, null, ex);
+			LOGGER.log(Level.SEVERE, null, ex);
 		}
 	}
-	
+
 	private String fileURL(String file) {
-		String urlFile =  "";
+		String urlFile = "";
 		String healthCheckConfig = System.getenv("HEALTH_CHECK_CONFIG");
-		if(healthCheckConfig != null && !healthCheckConfig.isEmpty()) {
+		if (healthCheckConfig != null && !healthCheckConfig.isEmpty()) {
 			urlFile = healthCheckConfig;
-		} else if(file != null && !file.isEmpty()) {
-			urlFile = file;
+		} else if (file != null && !file.isEmpty() && file.indexOf("/META-INF/") == 1) {
+			urlFile = InstanceEnviroment.class.getResource(Paths.get(file).normalize().toString()).getFile();
+		} else if (file != null && !file.isEmpty()) {
+			urlFile = Paths.get(file).normalize().toString();
 		}
+		LOGGER.log(Level.INFO, "url file configure : "+urlFile);
 		return urlFile;
 	}
-	
+
 	private Path fileConfig(String urlFile) throws FileNotFoundException {
-		String healthCheckConfig = fileURL(urlFile);
-		if(!healthCheckConfig.isEmpty()) {
-			return Paths.get(healthCheckConfig).normalize();
+		String filePath = fileURL(urlFile);
+		if (filePath != null && !filePath.isEmpty()) {
+			return Paths.get(filePath).normalize();
 		}
-		throw new  FileNotFoundException("file health configuration not found".concat(healthCheckConfig)) ;		
+		throw new FileNotFoundException("file health configuration not found : ".concat(filePath));
 	}
-	
+
 	public boolean isValidFile(String uriFile) throws FileNotFoundException {
 		return Files.exists(fileConfig(uriFile));
 	}
