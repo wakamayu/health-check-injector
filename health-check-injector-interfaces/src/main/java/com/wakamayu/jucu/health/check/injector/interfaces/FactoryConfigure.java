@@ -16,7 +16,7 @@ import com.wakamayu.jucu.health.check.injector.enums.TypeConfig;
  */
 public interface FactoryConfigure {
 
-    public void configure(String uriFile, TypeConfig config) throws FileNotFoundException ;
+    public void configure(String uriFile, TypeConfig config) ;
 
     public boolean isValid() throws FileNotFoundException ;
     

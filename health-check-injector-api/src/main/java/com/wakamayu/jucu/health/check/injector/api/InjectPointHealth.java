@@ -45,8 +45,11 @@ public class InjectPointHealth {
 				for (String line; (line = reader.readLine()) != null;) {
 					Class interfaces = Class.forName(line);
 					Health healthCheck = (Health) interfaces.getDeclaredAnnotation(Health.class);
-					configure.configure(healthCheck.fileConfig(), healthCheck.typeConfig());
-					configure.build();
+					if(healthCheck!= null) {
+						configure.configure(healthCheck.fileConfig(), healthCheck.typeConfig());
+						configure.build();	
+					}
+					
 				}
 				health.configure(configure);
 			}

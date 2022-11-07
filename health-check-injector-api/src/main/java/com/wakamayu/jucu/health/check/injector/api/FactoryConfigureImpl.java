@@ -25,8 +25,6 @@ import java.util.logging.Logger;
 @Singleton
 public class FactoryConfigureImpl implements FactoryConfigure {
 
-	private static final String URI_FILE = "/META-INF/healthcheck-config.properties";
-
 	private String uriFile;
 
 	private TypeConfig typeConfig;
@@ -35,8 +33,6 @@ public class FactoryConfigureImpl implements FactoryConfigure {
 	private InstanceEnviroment instanceEnviroment;
 
 	public FactoryConfigureImpl() {
-		this.uriFile = URI_FILE;
-		this.typeConfig = TypeConfig.PROPERTIES;
 	}
 
 	@Override
@@ -52,21 +48,11 @@ public class FactoryConfigureImpl implements FactoryConfigure {
 	}
 
 	@Override
-	public void configure(String uriFile, TypeConfig typeConfig) throws FileNotFoundException {
-		if (instanceEnviroment.isValidFile(uriFile)) {
-			setUriFile(uriFile);
-			setTypeConfig(typeConfig);
-
-		}
+	public void configure(String uriFile, TypeConfig typeConfig) {
+			this.uriFile = uriFile;
+			this.typeConfig = typeConfig;
 	}
 
-	public void setUriFile(String uriFile) {
-		this.uriFile = uriFile;
-	}
-
-	public void setTypeConfig(TypeConfig typeConfig) {
-		this.typeConfig = typeConfig;
-	}
 
 	@Override
 	public HealthCheckModel getHealthCheckModel() {
