@@ -99,8 +99,8 @@ public class InstanceEnviroment {
 		if (healthCheckConfig != null && !healthCheckConfig.isEmpty()) {
 			urlFile = healthCheckConfig;
 		} else if (file != null && !file.isEmpty() && file.indexOf("/META-INF/") == 0) {
-
-			urlFile = InstanceEnviroment.class.getResource(Paths.get(file).normalize().toString()).getFile();
+			urlFile = InstanceEnviroment.class.getClassLoader().getResource(Paths.get(file).normalize().toString()).getFile();
+			//urlFile = InstanceEnviroment.class.getResource(Paths.get(file).normalize().toString()).getFile();
 		} else if (file != null && !file.isEmpty()) {
 			urlFile = Paths.get(file).normalize().toString();
 		} else {
