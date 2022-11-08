@@ -52,6 +52,7 @@ public class InstanceEnviroment {
 		Properties properties = new Properties();
 		properties.load(inputStream);
 		for (String name : properties.stringPropertyNames()) {
+			LOGGER.log(Level.INFO, "read key : "+ name);
 			if (name.indexOf("healthcheck") > -1) {
 				this.properties.put(clearKey(name), properties.getProperty(name));
 				LOGGER.log(Level.INFO, String.format("configure key %s : %s", clearKey(name), properties.getProperty(name)));
