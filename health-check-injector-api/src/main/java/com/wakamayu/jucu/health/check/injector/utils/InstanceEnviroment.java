@@ -45,6 +45,8 @@ public class InstanceEnviroment {
 			}else {
 				LOGGER.log(Level.INFO, "not available stream : "+ filePath);
 			}
+		}else {
+			LOGGER.log(Level.INFO, "load instance enviroment : "+ filePath);
 		}
 	}
 
