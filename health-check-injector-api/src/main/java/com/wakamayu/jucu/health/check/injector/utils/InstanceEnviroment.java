@@ -42,6 +42,8 @@ public class InstanceEnviroment {
 			InputStream inputStream = new FileInputStream(fileConfig(filePath).toString());
 			if (inputStream.available() > 0) {
 				configure(inputStream);
+			}else {
+				LOGGER.log(Level.INFO, "not available stream : "+ filePath);
 			}
 		}
 	}
@@ -52,7 +54,9 @@ public class InstanceEnviroment {
 		for (String name : properties.stringPropertyNames()) {
 			if (name.indexOf("healthcheck") > -1) {
 				this.properties.put(clearKey(name), properties.getProperty(name));
-				LOGGER.log(Level.INFO, String.format("%s : %s", clearKey(name), properties.getProperty(name)));
+				LOGGER.log(Level.INFO, String.format("configure key %s : %s", clearKey(name), properties.getProperty(name)));
+			}else {
+				LOGGER.log(Level.INFO, String.format("is not posible configure key %s : %s", clearKey(name), properties.getProperty(name)));
 			}
 		}
 		configure(this.properties);
@@ -87,7 +91,7 @@ public class InstanceEnviroment {
 		String urlFile = "";
 		String healthCheckConfig = System.getenv("HEALTH_CHECK_CONFIG");
 
-		LOGGER.log(Level.INFO, "url file configure : " + urlFile);
+	
 
 		if (healthCheckConfig != null && !healthCheckConfig.isEmpty()) {
 			urlFile = healthCheckConfig;
@@ -99,7 +103,7 @@ public class InstanceEnviroment {
 		} else {
 			LOGGER.log(Level.INFO, "not url file configure : " + file);
 		}
-
+		LOGGER.log(Level.INFO, "url file configure : " + urlFile);
 		return urlFile;
 	}
 
