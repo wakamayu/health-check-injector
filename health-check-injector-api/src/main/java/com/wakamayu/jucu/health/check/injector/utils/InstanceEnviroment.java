@@ -52,6 +52,7 @@ public class InstanceEnviroment {
 		for (String name : properties.stringPropertyNames()) {
 			if (name.indexOf("healthcheck") > -1) {
 				this.properties.put(clearKey(name), properties.getProperty(name));
+				LOGGER.log(Level.INFO, String.format("%s : %s", clearKey(name), properties.getProperty(name)));
 			}
 		}
 		configure(this.properties);
@@ -64,6 +65,8 @@ public class InstanceEnviroment {
 			JavaPropsMapper mapper = new JavaPropsMapper();
 			mapper.enable(DeserializationFeature.ACCEPT_EMPTY_STRING_AS_NULL_OBJECT);
 			configureModel = mapper.readPropertiesAs(properties, ConfigureModel.class);
+		} else {
+			LOGGER.log(Level.INFO, "not configure properties factory mapper");
 		}
 	}
 
@@ -72,6 +75,8 @@ public class InstanceEnviroment {
 			boolean checkValidFile = isValidFile(filePath);
 			if (checkValidFile) {
 				load(filePath, config);
+			} else {
+				LOGGER.log(Level.INFO, "not validate properties");
 			}
 		} catch (IOException ex) {
 			LOGGER.log(Level.SEVERE, null, ex);
@@ -81,15 +86,20 @@ public class InstanceEnviroment {
 	private String fileURL(String file) {
 		String urlFile = "";
 		String healthCheckConfig = System.getenv("HEALTH_CHECK_CONFIG");
+
+		LOGGER.log(Level.INFO, "url file configure : " + urlFile);
+
 		if (healthCheckConfig != null && !healthCheckConfig.isEmpty()) {
 			urlFile = healthCheckConfig;
 		} else if (file != null && !file.isEmpty() && file.indexOf("/META-INF/") == 0) {
-			
+
 			urlFile = InstanceEnviroment.class.getResource(Paths.get(file).normalize().toString()).getFile();
 		} else if (file != null && !file.isEmpty()) {
 			urlFile = Paths.get(file).normalize().toString();
+		} else {
+			LOGGER.log(Level.INFO, "not url file configure : " + file);
 		}
-		LOGGER.log(Level.INFO, "url file configure : "+urlFile);
+
 		return urlFile;
 	}
 
