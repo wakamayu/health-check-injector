@@ -5,6 +5,10 @@ nbproject/private/
 target/
 dist/
 .ftppass
+.settings/
+.project
+.classpath
+
 
 # Windows image file caches
 Thumbs.db
