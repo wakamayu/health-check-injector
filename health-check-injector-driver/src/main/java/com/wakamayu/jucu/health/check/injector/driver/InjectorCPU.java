@@ -4,9 +4,7 @@ import com.wakamayu.jucu.health.check.injector.configure.TracerModel;
 import com.wakamayu.jucu.health.check.injector.enums.TypeStatus;
 import com.wakamayu.jucu.health.check.injector.interfaces.Driver;
 
-//import javax.ejb.Singleton;
-import javax.ejb.Stateful;
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateful;
 
 import javax.inject.Named;
 import javax.inject.Singleton;
@@ -20,9 +18,7 @@ import com.sun.management.OperatingSystemMXBean;
  * @author carlos
  */
 @Named("CPU")
-//@RequestScoped
-//@Stateless
-@Singleton
+@Stateful
 public class InjectorCPU implements Driver {
 
 //    private Gauge osCPUUsedRatio = Gauge.build().name("os_memory_used_ratio")

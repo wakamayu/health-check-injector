@@ -10,9 +10,8 @@ import com.wakamayu.jucu.health.check.injector.enums.TypeConfig;
 import com.wakamayu.jucu.health.check.injector.interfaces.FactoryConfigure;
 import com.wakamayu.jucu.health.check.injector.utils.InstanceEnviroment;
 
-import javax.enterprise.context.RequestScoped;
 import javax.inject.Inject;
-import javax.inject.Singleton;
+import javax.inject.Singleton;	
 
 import java.io.IOException;
 import java.util.logging.Level;
@@ -25,9 +24,6 @@ import java.util.logging.Logger;
  * @author carlos
  */
 @Singleton
-//@RequestScoped
-//@Named("FACTORY-CONFIGURE")
-//@Stateless
 public class FactoryConfigureImpl implements FactoryConfigure {
 
     private static final String URI_FILE = "/META-INF/healthcheck-config.properties";

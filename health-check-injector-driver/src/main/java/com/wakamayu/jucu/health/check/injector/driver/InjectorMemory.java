@@ -8,11 +8,9 @@ package com.wakamayu.jucu.health.check.injector.driver;
 import com.wakamayu.jucu.health.check.injector.interfaces.Driver;
 import com.wakamayu.jucu.health.check.injector.configure.TracerModel;
 import com.wakamayu.jucu.health.check.injector.enums.TypeStatus;
-import io.prometheus.client.Gauge;
 
-import javax.ejb.Stateful;
-import javax.ejb.Stateless;
-import javax.enterprise.context.RequestScoped;
+import jakarta.ejb.Stateless;
+
 import javax.inject.Named;
 
 /**
@@ -21,7 +19,6 @@ import javax.inject.Named;
  */
 @Named("MEMORY")
 @Stateless
-//@Stateful
 public class InjectorMemory implements Driver {
 
 //    static final Gauge osMemoryUsedRatio = Gauge.build().name("os_memory_used_ratio")

@@ -7,6 +7,8 @@ package com.wakamayu.jucu.health.check.injector.resource;
 
 import io.prometheus.client.CollectorRegistry;
 import io.prometheus.client.exporter.common.TextFormat;
+import jakarta.enterprise.context.RequestScoped;
+
 import java.io.OutputStreamWriter;
 import java.io.Writer;
 import javax.ws.rs.Consumes;
@@ -21,6 +23,7 @@ import javax.ws.rs.core.StreamingOutput;
  * @author carlos
  */
 @Path("strategy/prometheus")
+@RequestScoped	
 public class MetricsPrometheus {
 
     @GET

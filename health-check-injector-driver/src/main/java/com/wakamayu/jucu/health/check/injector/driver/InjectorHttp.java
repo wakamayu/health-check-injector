@@ -8,13 +8,7 @@ package com.wakamayu.jucu.health.check.injector.driver;
 import com.wakamayu.jucu.health.check.injector.interfaces.Driver;
 import com.wakamayu.jucu.health.check.injector.configure.TracerModel;
 import com.wakamayu.jucu.health.check.injector.enums.TypeStatus;
-import io.prometheus.client.Gauge;
-import io.prometheus.client.Summary;
-
-import javax.ejb.Singleton;
-import javax.ejb.Stateful;
-import javax.ejb.Stateless;
-import javax.enterprise.context.RequestScoped;
+import jakarta.ejb.Stateless;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -28,7 +22,6 @@ import javax.inject.Named;
  */
 @Named("HTTP")
 @Stateless
-//@Singleton
 public class InjectorHttp implements Driver {
 
 //    private Gauge promhttpMetricHandlerRequestsProgress = Gauge.build()

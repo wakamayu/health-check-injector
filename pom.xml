@@ -5,25 +5,15 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.wakamayu.jucu</groupId>
 	<artifactId>health-check-injector</artifactId>
-	<version>0.0.1</version>
-	<build>
-		<finalName>${project.artifactId}</finalName>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.8</source>
-					<target>1.8</target>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
+	<version>jakarta-cdi-4.0.0</version>
 	<packaging>pom</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<maven.compiler.source>8</maven.compiler.source>
-		<maven.compiler.target>8</maven.compiler.target>
+		<jakarta.api>4.0.0</jakarta.api>
+		<microprofile-health-api>2.2</microprofile-health-api>
+		<jackson.core.version>2.10.0</jackson.core.version>
+		<javax.ws.rs-api>2.1.1</javax.ws.rs-api>
+		<jakarta.persistence>2.2.3</jakarta.persistence>
 	</properties>
 	<modules>
 		<module>health-check-injector-annotate</module>
@@ -37,48 +27,71 @@
 		<dependency>
 			<groupId>jakarta.enterprise</groupId>
 			<artifactId>jakarta.enterprise.cdi-api</artifactId>
-			<version>2.0.2</version>
+			<version>${jakarta.api}</version>
 		</dependency>
 		<dependency>
 			<groupId>jakarta.el</groupId>
 			<artifactId>jakarta.el-api</artifactId>
-			<version>3.0.3</version>
+			<version>${jakarta.api}</version>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.ejb</groupId>
+			<artifactId>jakarta.ejb-api</artifactId>
+			<version>${jakarta.api}</version>
+		</dependency>
+		<dependency>
+			<groupId>jakarta.xml.bind</groupId>
+			<artifactId>jakarta.xml.bind-api</artifactId>
+			<version>${jakarta.api}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.microprofile.health</groupId>
 			<artifactId>microprofile-health-api</artifactId>
-			<version>2.2</version>
+			<version>${microprofile-health-api}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.dataformat</groupId>
 			<artifactId>jackson-dataformat-properties</artifactId>
-			<version>2.10.0</version>
+			<version>${jackson.core.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-databind</artifactId>
-			<version>2.10.0</version>
+			<version>${jackson.core.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-core</artifactId>
-			<version>2.10.0</version>
+			<version>${jackson.core.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
-			<version>2.10.0</version>
+			<version>${jackson.core.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>javax.ws.rs</groupId>
 			<artifactId>javax.ws.rs-api</artifactId>
-			<version>2.1.1</version>
+			<version>${javax.ws.rs-api}</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
-			<artifactId>org.eclipse.persistence.jpa</artifactId>
-			<version>2.7.9</version>
+			<artifactId>jakarta.persistence</artifactId>
+			<version>${jakarta.persistence}</version>
 		</dependency>
 	</dependencies>
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.8.1</version>
+				<configuration>
+					<release>11</release>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

@@ -7,11 +7,11 @@ package com.wakamayu.jucu.health.check.injector.driver;
 
 import com.wakamayu.jucu.health.check.injector.interfaces.Driver;
 
-import javax.ejb.Stateful;
-import javax.ejb.Stateless;
+import jakarta.ejb.Stateless;
 
 import com.wakamayu.jucu.health.check.injector.configure.TracerModel;
 import com.wakamayu.jucu.health.check.injector.enums.TypeStatus;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,8 +25,7 @@ import javax.persistence.Persistence;
  * @author carlos
  */
 @Named("SQL")
-//@Stateless
-@Stateful
+@Stateless	
 public class InjectorPersistenceUnit implements Driver {
 
     private static Map<String, String> queries = new HashMap<String, String>();
