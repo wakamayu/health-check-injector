@@ -9,10 +9,10 @@
 	<packaging>pom</packaging>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<jakarta.api>4.0.0</jakarta.api>
-		<microprofile-health-api>2.2</microprofile-health-api>
+		<jakarta.jakartaee-api>10.0.0</jakarta.jakartaee-api>
+		<microprofile-health-api>4.0</microprofile-health-api>
 		<jackson.core.version>2.10.0</jackson.core.version>
-		<javax.ws.rs-api>2.1.1</javax.ws.rs-api>
+		<jakarta.ws.rs-api>2.1.1</jakarta.ws.rs-api>
 		<jakarta.persistence>2.2.3</jakarta.persistence>
 	</properties>
 	<modules>
@@ -25,24 +25,10 @@
 	<name>health-check-injector</name>
 	<dependencies>
 		<dependency>
-			<groupId>jakarta.enterprise</groupId>
-			<artifactId>jakarta.enterprise.cdi-api</artifactId>
-			<version>${jakarta.api}</version>
-		</dependency>
-		<dependency>
-			<groupId>jakarta.el</groupId>
-			<artifactId>jakarta.el-api</artifactId>
-			<version>${jakarta.api}</version>
-		</dependency>
-		<dependency>
-			<groupId>jakarta.ejb</groupId>
-			<artifactId>jakarta.ejb-api</artifactId>
-			<version>${jakarta.api}</version>
-		</dependency>
-		<dependency>
-			<groupId>jakarta.xml.bind</groupId>
-			<artifactId>jakarta.xml.bind-api</artifactId>
-			<version>${jakarta.api}</version>
+			<groupId>jakarta.platform</groupId>
+			<artifactId>jakarta.jakartaee-api</artifactId>
+			<version>${jakarta.jakartaee-api}</version>
+			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.eclipse.microprofile.health</groupId>
@@ -69,12 +55,12 @@
 			<artifactId>jackson-annotations</artifactId>
 			<version>${jackson.core.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>javax.ws.rs</groupId>
-			<artifactId>javax.ws.rs-api</artifactId>
-			<version>${javax.ws.rs-api}</version>
+	<!--	<dependency>
+			<groupId>jakarta.ws.rs</groupId>
+			<artifactId>jakarta.ws.rs-api</artifactId>
+			<version>${jakarta.ws.rs-api}</version>
 			<scope>provided</scope>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>org.eclipse.persistence</groupId>
 			<artifactId>jakarta.persistence</artifactId>
@@ -83,12 +69,13 @@
 	</dependencies>
 	<build>
 		<finalName>${project.artifactId}</finalName>
-		<plugins>
-			<plugin>
+			<plugins>
+		<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.8.1</version>
 				<configuration>
+					<encoding>UTF-8</encoding>
 					<release>11</release>
 				</configuration>
 			</plugin>

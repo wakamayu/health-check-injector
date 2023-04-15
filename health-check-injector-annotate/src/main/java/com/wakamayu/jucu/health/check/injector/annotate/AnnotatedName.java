@@ -8,8 +8,8 @@ package com.wakamayu.jucu.health.check.injector.annotate;
 
 
 import java.util.Objects;
-import javax.enterprise.util.AnnotationLiteral;
-import javax.inject.Named;
+import jakarta.enterprise.util.AnnotationLiteral;
+import jakarta.inject.Named;
 
 /**
  *

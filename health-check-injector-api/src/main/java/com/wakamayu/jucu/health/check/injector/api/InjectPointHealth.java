@@ -7,15 +7,15 @@ import java.io.InputStreamReader;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javax.enterprise.context.ApplicationScoped;
-import javax.enterprise.context.Initialized;
-import javax.enterprise.event.Observes;
-import javax.enterprise.inject.Any;
-import javax.enterprise.inject.Produces;
-import javax.enterprise.inject.spi.Annotated;
-import javax.enterprise.inject.spi.InjectionPoint;
-import javax.inject.Inject;
-import javax.ws.rs.core.Application;
+import jakarta.enterprise.context.ApplicationScoped;
+import jakarta.enterprise.context.Initialized;
+import jakarta.enterprise.event.Observes;
+import jakarta.enterprise.inject.Any;
+import jakarta.enterprise.inject.Produces;
+import jakarta.enterprise.inject.spi.Annotated;
+import jakarta.enterprise.inject.spi.InjectionPoint;
+import jakarta.inject.Inject;
+import jakarta.ws.rs.core.Application;
 
 import com.wakamayu.jucu.health.check.injector.annotate.Health;
 import com.wakamayu.jucu.health.check.injector.annotate.HealthCheck;
@@ -38,12 +38,11 @@ public class InjectPointHealth {
 
 		System.out.println("InitializerOnStart.onStart() ");
 		System.out.println(pointless);
-
-		InputStream inputStream = InjectPointHealth.class
-				.getResourceAsStream("/provider/provider.health.check.injector");
-		BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-
 		try {
+			InputStream inputStream = InjectPointHealth.class
+					.getResourceAsStream("/provider/provider.health.check.injector");
+			BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+
 			for (String line; (line = reader.readLine()) != null;) {
 				Class interfaces = Class.forName(line);
 				Health healthCheck = (Health) interfaces.getDeclaredAnnotation(Health.class);

@@ -10,8 +10,8 @@ import com.wakamayu.jucu.health.check.injector.enums.TypeConfig;
 import com.wakamayu.jucu.health.check.injector.interfaces.FactoryConfigure;
 import com.wakamayu.jucu.health.check.injector.utils.InstanceEnviroment;
 
-import javax.inject.Inject;
-import javax.inject.Singleton;	
+import jakarta.inject.Inject;
+import jakarta.inject.Singleton;	
 
 import java.io.IOException;
 import java.util.logging.Level;

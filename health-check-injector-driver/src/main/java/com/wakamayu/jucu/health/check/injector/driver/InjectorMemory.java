@@ -11,7 +11,7 @@ import com.wakamayu.jucu.health.check.injector.enums.TypeStatus;
 
 import jakarta.ejb.Stateless;
 
-import javax.inject.Named;
+import jakarta.inject.Named;
 
 /**
  *

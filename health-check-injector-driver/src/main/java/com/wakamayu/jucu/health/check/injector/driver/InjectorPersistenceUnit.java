@@ -15,10 +15,10 @@ import com.wakamayu.jucu.health.check.injector.enums.TypeStatus;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.inject.Named;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
+import jakarta.inject.Named;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.Persistence;
 
 /**
  *

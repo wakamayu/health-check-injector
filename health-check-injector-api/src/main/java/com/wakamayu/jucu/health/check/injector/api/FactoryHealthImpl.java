@@ -13,11 +13,11 @@ import com.wakamayu.jucu.health.check.injector.interfaces.FactoryHealth;
 import com.wakamayu.jucu.health.check.injector.model.ResponseHealth;
 import com.wakamayu.jucu.health.check.injector.utils.InstanceAnnotated;
 import io.prometheus.client.Gauge;
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.event.Event;
-import javax.inject.Inject;
-import javax.inject.Named;
-import javax.inject.Singleton;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.event.Event;
+import jakarta.inject.Inject;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 
 import java.util.ArrayList;
 import java.util.HashMap;

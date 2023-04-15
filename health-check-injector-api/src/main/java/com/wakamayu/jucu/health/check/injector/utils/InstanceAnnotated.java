@@ -8,8 +8,8 @@ package com.wakamayu.jucu.health.check.injector.utils;
 
 import java.lang.annotation.Annotation;
 
-import javax.enterprise.context.RequestScoped;
-import javax.enterprise.inject.Instance;
+import jakarta.enterprise.context.RequestScoped;
+import jakarta.enterprise.inject.Instance;
 
 /**
  *

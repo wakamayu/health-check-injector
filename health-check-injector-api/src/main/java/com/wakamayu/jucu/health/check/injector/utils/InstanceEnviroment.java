@@ -11,7 +11,7 @@ import com.fasterxml.jackson.dataformat.javaprop.JavaPropsMapper;
 import com.wakamayu.jucu.health.check.injector.configure.ConfigureModel;
 import com.wakamayu.jucu.health.check.injector.enums.TypeConfig;
 
-import javax.inject.Singleton;
+import jakarta.inject.Singleton;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

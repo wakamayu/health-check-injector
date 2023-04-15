@@ -7,23 +7,23 @@ package com.wakamayu.jucu.health.check.injector.resource;
 
 import io.prometheus.client.CollectorRegistry;
 import io.prometheus.client.exporter.common.TextFormat;
-import jakarta.enterprise.context.RequestScoped;
+import jakarta.ejb.Stateless;
 
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.StreamingOutput;
+import jakarta.ws.rs.Consumes;
+import jakarta.ws.rs.GET;
+import jakarta.ws.rs.Path;
+import jakarta.ws.rs.Produces;
+import jakarta.ws.rs.core.MediaType;
+import jakarta.ws.rs.core.StreamingOutput;
 
 /**
  *
  * @author carlos
  */
 @Path("strategy/prometheus")
-@RequestScoped	
+@Stateless
 public class MetricsPrometheus {
 
     @GET

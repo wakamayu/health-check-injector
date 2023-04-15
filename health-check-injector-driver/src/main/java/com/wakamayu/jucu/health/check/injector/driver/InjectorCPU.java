@@ -6,8 +6,8 @@ import com.wakamayu.jucu.health.check.injector.interfaces.Driver;
 
 import jakarta.ejb.Stateful;
 
-import javax.inject.Named;
-import javax.inject.Singleton;
+import jakarta.inject.Named;
+import jakarta.inject.Singleton;
 
 import java.lang.management.ManagementFactory;
 import java.lang.management.RuntimeMXBean;

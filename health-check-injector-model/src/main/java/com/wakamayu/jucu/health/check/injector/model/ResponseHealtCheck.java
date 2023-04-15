@@ -1,22 +1,23 @@
 package com.wakamayu.jucu.health.check.injector.model;
 
 import java.util.Map;
-import java.util.Optional;
+
 
 import org.eclipse.microprofile.health.HealthCheckResponse;
-import org.eclipse.microprofile.health.HealthCheckResponse.State;
+import org.eclipse.microprofile.health.HealthCheckResponse.Status;
+
 
 public class ResponseHealtCheck {
 
 	private String name;
 
-	private State state;
+	private Status state;
 
 	private Map<String, Object> data;
 
 	public ResponseHealtCheck(HealthCheckResponse checkResponse) {
 		this.name = checkResponse.getName();
-		this.state = checkResponse.getState();
+		this.state = checkResponse.getStatus();
 		this.data = checkResponse.getData().get();
 	}
 
@@ -28,11 +29,11 @@ public class ResponseHealtCheck {
 		this.name = name;
 	}
 
-	public State getState() {
+	public Status getState() {
 		return state;
 	}
 
-	public void setState(State state) {
+	public void setState(Status state) {
 		this.state = state;
 	}
 

@@ -16,7 +16,7 @@ import java.net.InetSocketAddress;
 import java.net.Socket;
 import java.net.SocketAddress;
 import java.net.SocketTimeoutException;
-import javax.inject.Named;
+import jakarta.inject.Named;
 
 /**
  *
